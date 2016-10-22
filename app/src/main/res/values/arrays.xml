@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_language">
+        <item>@string/menu4c_msg0</item>
+        <item>@string/menu4c_msg1</item>
+        <item>@string/menu4c_msg2</item>
+    </string-array>
+    <string-array name="array_carbohydrates">
+        <item>@string/menu2a_spinner13_item0</item>
+        <item>@string/menu2a_spinner13_item1</item>
+        <item>@string/menu2a_spinner13_item2</item>
+    </string-array>
+    <string-array name="array_sort">
+        <item>@string/menu2b_spinner3b_item0</item>
+        <item>@string/menu2b_spinner3b_item1</item>
+        <item>@string/menu2b_spinner3b_item2</item>
+        <item>@string/menu2b_spinner3b_item3</item>
+        <item>@string/menu2b_spinner3b_item4</item>
+    </string-array>
+
+</resources>

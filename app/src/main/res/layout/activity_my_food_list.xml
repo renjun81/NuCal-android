@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/base_margin"
+        >
+        <ImageView
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
+            android:src="@drawable/userpic_default"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:text="User"
+            android:textSize="@dimen/user_name_text_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="3"
+        >
+
+        <ImageView
+            android:id="@+id/image_spinner"
+            android:layout_width="@dimen/form_row_height"
+            android:layout_height="@dimen/form_row_height"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_3low"
+            android:visibility="invisible"
+            />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="@dimen/form_row_height"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:background="@drawable/choice_sky"
+            android:paddingLeft="@dimen/base_margin"
+            android:dropDownVerticalOffset="45dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingTop="@dimen/base4pt"
+        android:paddingBottom="@dimen/base4pt"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:background="@color/bg_pink"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu2b_t20_list"
+            android:textSize="@dimen/form_label_text_size"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/check_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/form_input_margin"
+            android:src="@drawable/checklist_on" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="@string/menu2b_t20_row4b"
+            android:textSize="@dimen/form_label_text_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/bg_yellow"
+        android:padding="@dimen/base3pt"
+        android:weightSum="5">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:weightSum="5">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="@dimen/foodlist_header_text_size"
+                android:text="@string/menu2b_t20_row5a" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:textSize="@dimen/foodlist_header_text_size"
+                android:text="@string/menu2b_t20_row5b" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:textSize="@dimen/foodlist_header_text_size"
+                android:text="@string/menu2b_t20_row5c" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:gravity="center"
+                android:textSize="@dimen/foodlist_header_text_size"
+                android:text="@string/menu2b_t20_row5d" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/form_row_vertical_margin"
+        android:paddingBottom="@dimen/base_margin"
+        >
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/btnTransmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_sharefood_draw" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+        <ImageView
+            android:id="@+id/btnMyIntake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_myintake_draw" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+</LinearLayout>

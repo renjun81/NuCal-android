@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<dimen name="profile_photo_size">104dp</dimen>
+	<dimen name="profile_photo_padding">8dp</dimen>
+	<dimen name="profile_row_height">52dp</dimen>
+	<dimen name="profile_row_margin">10dp</dimen>
+	<dimen name="profile_activity_row_height">104dp</dimen>
+	<dimen name="profile_BMI_row_height">65dp</dimen>
+
+</resources>

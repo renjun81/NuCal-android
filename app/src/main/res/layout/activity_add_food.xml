@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_margin="@dimen/base_margin"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text2a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    android:id="@+id/textView8" />
+
+                <EditText
+                    android:id="@+id/food_name_et"
+                    style="@style/form_input"
+                    android:textSize="32sp"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/menu2a_text3a"
+                android:paddingLeft="@dimen/base_margin"
+                android:paddingTop="@dimen/form_row_vertical_margin"
+                android:paddingBottom="@dimen/form_row_vertical_margin"
+                android:background="@color/bg_pink"
+                android:textStyle="bold"
+                android:textSize="@dimen/form_label_text_size"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bubble_yellow"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:gravity="center_horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/opt100g"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/btn_left_on"
+                        android:textSize="@dimen/form_toggle_text_size"
+                        android:text="@string/menu2a_text4a" />
+
+                    <TextView
+                        android:id="@+id/opt100ml"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/btn_mid_off"
+                        android:textSize="@dimen/form_toggle_text_size"
+                        android:text="@string/menu2a_text4b" />
+
+                    <TextView
+                        android:id="@+id/optCustom"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/btn_right_off"
+                        android:textSize="@dimen/form_toggle_text_size"
+                        android:text="@string/menu2a_text4c" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:layout_marginTop="12dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"/>
+
+                    <EditText
+                        android:id="@+id/edtPackageSize"
+                        style="@style/form_input"
+                        android:layout_weight="2"
+                        android:layout_marginRight="8dp"
+                        android:inputType="number"
+                        />
+
+                    <TextView
+                        android:id="@+id/optUnitG"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/btn_left_on"
+                        android:textSize="@dimen/form_toggle_text_size"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textAllCaps="false"/>
+
+                    <TextView
+                        android:id="@+id/optUnitMl"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/btn_right_off"
+                        android:textSize="@dimen/form_toggle_text_size"
+                        android:text="@string/menu2a_text5c_ml"
+                        android:textAllCaps="false"/>
+
+                    <TextView
+                        android:id="@+id/tvPackageUnit"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:textSize="@dimen/form_label_text_size"
+                        android:text="@string/menu2a_text5c_g"
+                        android:layout_marginLeft="8dp"
+                        android:visibility="gone"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text6a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+                <EditText
+                    android:id="@+id/edtEnergy"
+                    style="@style/form_input"
+                    android:layout_marginRight="@dimen/form_input_margin"
+                    android:inputType="number"
+                    />
+
+                <TextView
+                    android:id="@+id/optUnitKCal"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@drawable/btn_left_on"
+                    android:textSize="@dimen/form_toggle_text_size"
+                    android:text="@string/menu2a_text6c"
+                    android:textAllCaps="false"/>
+
+                <TextView
+                    android:id="@+id/optUnitKJ"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@drawable/btn_right_off"
+                    android:textSize="@dimen/form_toggle_text_size"
+                    android:text="@string/menu2a_text6d"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/menu2a_text7a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+                <EditText
+                    android:id="@+id/edtProtein"
+                    style="@style/form_input"
+                    android:layout_marginRight="@dimen/form_input_margin"
+                    android:inputType="numberDecimal"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text5c_g"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/menu2a_text8a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+                <EditText
+                    android:id="@+id/edtTotalFat"
+                    style="@style/form_input"
+                    android:layout_marginRight="@dimen/form_input_margin"
+                    android:inputType="numberDecimal"
+                    android:enabled="false"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text5c_g"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:background="@drawable/bubble_green"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text9a"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                    <EditText
+                        android:id="@+id/edtSaturatedFat"
+                        style="@style/form_input"
+                        android:layout_marginRight="@dimen/form_input_margin"
+                        android:inputType="numberDecimal"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text10a"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                    <EditText
+                        android:id="@+id/edtTransFat"
+                        style="@style/form_input"
+                        android:layout_marginRight="@dimen/form_input_margin"
+                        android:inputType="numberDecimal"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text11a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+                <EditText
+                    android:id="@+id/edtCholestrol"
+                    style="@style/form_input"
+                    android:layout_marginRight="@dimen/form_input_margin"
+                    android:inputType="numberDecimal"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text11c"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:text="@string/menu2a_text12a"
+                android:textStyle="bold"
+                android:textSize="@dimen/form_label_text_size"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bubble_green"
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:paddingLeft="@dimen/base_margin"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:gravity="center_vertical"
+                    >
+
+                    <Spinner
+                        android:id="@+id/carbo_spinner"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:background="@drawable/choice_gray"
+                        android:dropDownVerticalOffset="26dp"/>
+
+                    <EditText
+                        android:id="@+id/edtCarboTotal"
+                        style="@style/form_input"
+                        android:layout_weight="2"
+                        android:layout_marginLeft="@dimen/base_margin"
+                        android:layout_marginRight="@dimen/form_input_margin"
+                        android:inputType="numberDecimal"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text14a"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                    <EditText
+                        android:id="@+id/edtCarboDietary"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/base_margin"
+                        android:layout_marginRight="@dimen/form_input_margin"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:scrollHorizontally="true"
+                        android:background="@drawable/txtfield_normal" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/form_row_height"
+                    android:layout_marginTop="@dimen/base_margin"
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text15a"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+
+                    <EditText
+                        android:id="@+id/edtCarboSugar"
+                        style="@style/form_input"
+                        android:layout_weight="2"
+                        android:layout_marginLeft="@dimen/base_margin"
+                        android:layout_marginRight="@dimen/form_input_margin"
+                        android:inputType="numberDecimal"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text5c_g"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/form_row_height"
+                android:layout_marginTop="@dimen/base_margin"
+                android:layout_marginLeft="@dimen/base_margin"
+                android:layout_marginRight="@dimen/base_margin"
+                android:layout_marginBottom="32dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text16a"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+                <EditText
+                    android:id="@+id/edtSodium"
+                    style="@style/form_input"
+                    android:layout_marginRight="@dimen/form_input_margin"
+                    android:inputType="numberDecimal"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu2a_text11c"
+                    android:textSize="@dimen/form_label_text_size"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/base_margin"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/btn_save_draw"
+        />
+
+</LinearLayout>

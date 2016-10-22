@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/round_background"
+    android:padding="@dimen/dialog_padding">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please Select Language"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="@dimen/dialog_title_text_size"
+        android:layout_marginTop="@dimen/base8pt"
+        android:layout_marginBottom="@dimen/base_margin"
+        android:textColor="#000000"
+        android:id="@+id/textView" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="English"
+        android:background="@drawable/popup_btn"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/dialog_button_text_size"
+        android:textColor="#000000"
+        />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="繁体中文"
+        android:background="@drawable/popup_btn"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/dialog_button_text_size"
+        android:textColor="#000000"
+        />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="简体中文"
+        android:background="@drawable/popup_btn"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/dialog_button_text_size"
+        android:textColor="#000000"
+        />
+</LinearLayout>

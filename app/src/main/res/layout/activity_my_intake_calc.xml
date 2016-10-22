@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/base_margin"
+        >
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
+            android:src="@drawable/userpic_default" />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/base_margin"
+            android:text="User"
+            android:textColor="#667459"
+            android:textSize="@dimen/user_name_text_size"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:paddingBottom="@dimen/base_margin"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu3a_text3a"
+            android:textColor="#667459"
+            android:textStyle="bold"
+            android:textSize="@dimen/intake_subtitle_text_size"/>
+
+        <TextView
+            android:id="@+id/tvDailyEnergy"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="1900 kcal"
+            android:textColor="#5F7351"
+            android:textStyle="bold"
+            android:textSize="@dimen/intake_subtitle_text_size"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/base4pt"
+                android:paddingBottom="@dimen/base4pt"
+                android:paddingLeft="@dimen/base8pt"
+                android:paddingRight="@dimen/base8pt"
+                android:background="@color/bg_pink"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu3a_type10_header_text4a"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/menu3a_type10_header_text4b"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:text="@string/menu3a_type10_header_text4c"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"
+                    android:id="@+id/textView3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFoods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                />
+
+            <LinearLayout
+                android:id="@+id/llIndexes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/base4pt"
+                android:paddingBottom="@dimen/base4pt"
+                android:paddingLeft="@dimen/base8pt"
+                android:paddingRight="@dimen/base8pt"
+                android:background="@color/bg_pink"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu3a_type20_header_text6a"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/menu3a_type20_header_text6b"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"
+                    android:id="@+id/textView7" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/menu3a_type20_header_text6c"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/intake_header_text_size"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/btnCalculate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_calculate_draw"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        />
+
+</LinearLayout>

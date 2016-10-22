@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/base_margin"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/tvIndexName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Energy"
+            android:textColor="#5F7351"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvIndexValue"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="358.50 kcal"
+            android:textColor="#509146"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tvIndexPercent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="19%"
+            android:textColor="#509146"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:indeterminate="false"
+        android:maxHeight="10dip"
+        android:minHeight="10dip"
+        android:progress="19"
+        android:max="150"
+        android:progressDrawable="@drawable/custom_progress_bar"
+        />
+
+</LinearLayout>

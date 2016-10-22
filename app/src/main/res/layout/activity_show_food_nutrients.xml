@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <include layout="@layout/titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:padding="@dimen/base_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/user_photo_size"
+            android:layout_height="@dimen/user_photo_size"
+            android:src="@drawable/userpic_default" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="User"
+            android:textColor="#667459"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu3a_text3a"
+            android:textColor="#667459"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="1900 kcal"
+            android:textColor="#667459"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu3a_text4a"
+            android:textColor="#667459"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="2016  Oct 04 at 01:12 PM"
+            android:textColor="#5F7351"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@color/bg_pink"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu3a_type10_header_text4a"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:id="@+id/textView6" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/menu3a_type10_header_text4b"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:text="@string/menu3a_type10_header_text4c"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:id="@+id/textView3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFoods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@color/bg_pink"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu3a_type20_header_text6a"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:gravity="center"
+                    android:text="@string/menu3a_type20_header_text6b"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/menu3a_type20_header_text6c"
+                    android:textColor="#5F7351"
+                    android:textStyle="bold"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llIndexes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/dialog_padding"
+    android:background="@drawable/round_background">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/base8pt"
+        android:textSize="@dimen/dialog_title_text_size"
+        android:text="Exit without saving?"
+        android:textColor="#000000"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/base_margin"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/popup_btn"
+            android:textSize="@dimen/dialog_button_text_size"
+            android:textColor="#000000"
+            android:text="YES"/>
+        <Button
+            android:id="@+id/no"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@drawable/popup_btn"
+            android:textSize="@dimen/dialog_button_text_size"
+            android:textColor="#000000"
+            android:text="NO"/>
+    </LinearLayout>
+
+
+
+</LinearLayout>

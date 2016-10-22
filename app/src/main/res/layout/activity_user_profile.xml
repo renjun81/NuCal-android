@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ECECEC"
+    android:orientation="vertical"
+    >
+
+    <include
+        android:id="@+id/llTitlebar"
+        layout="@layout/titlebar" />
+
+
+    <RelativeLayout
+        android:id="@+id/bmiMeter"
+        android:layout_marginBottom="-190dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        >
+
+        <ImageView
+            android:id="@+id/ivBMIBoard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/balance_asian"
+            />
+
+        <ImageView
+            android:id="@+id/ivBMIPointer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/pointer_normal"
+            />
+
+        <TextView
+            android:id="@+id/tvBMI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BMI:12.04"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#344C1A"
+            android:layout_centerHorizontal="true"
+            android:layout_alignBottom="@id/ivBMIBoard"
+            android:layout_marginBottom="4dp"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/llEnergyRequired"
+        android:layout_above="@id/bmiMeter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/profile_row_height"
+        android:layout_marginLeft="@dimen/base_margin"
+        android:layout_marginRight="@dimen/base_margin"
+        android:layout_marginBottom="@dimen/profile_row_margin"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:text="@string/menu4b_text10a"
+            android:textColor="#344C1A"
+            android:textSize="@dimen/profile_label_text_size"
+            android:textStyle="bold"
+            android:id="@+id/textView2" />
+
+        <EditText
+            android:id="@+id/edtEnergyRequired"
+            style="@style/form_input"
+            android:layout_weight="2"
+            android:layout_marginRight="@dimen/form_input_margin"
+            android:inputType="numberDecimal"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/menu4b_text10c"
+            android:textColor="#344C1A"
+            android:textSize="@dimen/profile_label_text_size"
+            android:textStyle="bold"
+            android:id="@+id/textView5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/base_margin"
+        android:orientation="vertical"
+        android:layout_below="@+id/llTitlebar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_row_height"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu4b_text2a"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textStyle="bold"
+                    android:id="@+id/textView9" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_row_height"
+                    android:layout_marginTop="@dimen/profile_row_margin"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu4b_text3a"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textStyle="bold"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                >
+
+                <EditText
+                    android:id="@+id/edtName"
+                    style="@style/form_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_row_height"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/profile_row_height"
+                    android:layout_marginTop="@dimen/profile_row_margin"
+                    >
+
+                    <Button
+                        android:id="@+id/optMale"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/btn_left_on"
+                        android:text="@string/menu4b_text3b"
+                        android:textSize="@dimen/profile_label_text_size"
+                        android:textAllCaps="false"
+                        />
+
+                    <Button
+                        android:id="@+id/optFemale"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/btn_right_off"
+                        android:text="@string/menu4b_text3c"
+                        android:textSize="@dimen/profile_label_text_size"
+                        android:textAllCaps="false"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right">
+
+                <ImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="@dimen/profile_photo_size"
+                    android:layout_height="@dimen/profile_photo_size"
+                    android:padding="@dimen/profile_photo_padding"
+                    android:src="@drawable/userpic_default"
+                    android:background="@drawable/userpic_bg"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_row_height"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/menu4b_text4a"
+                android:textColor="#344C1A"
+                android:textSize="@dimen/profile_label_text_size"
+                android:textStyle="bold"
+                />
+
+            <EditText
+                android:id="@+id/edtWeight"
+                style="@style/form_input"
+                android:layout_weight="1.5"
+                android:layout_marginRight="@dimen/form_input_margin"
+                android:inputType="numberDecimal"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                >
+
+                <Button
+                    android:id="@+id/optLBS"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_left_on"
+                    android:text="@string/menu4b_text4b"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/optKG"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_right_off"
+                    android:text="@string/menu4b_text4c"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_row_height"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/menu4b_text5a"
+                android:textColor="#344C1A"
+                android:textSize="@dimen/profile_label_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/form_input_margin"
+                >
+                <EditText
+                    android:id="@+id/edtHeightFeet"
+                    style="@style/form_input"
+                    android:inputType="numberDecimal"
+                    />
+
+                <EditText
+                    android:id="@+id/edtHeightInch"
+                    style="@style/form_input"
+                    android:layout_marginLeft="@dimen/form_input_margin"
+                    android:inputType="numberDecimal"
+                    />
+
+                <EditText
+                    android:id="@+id/edtHeightMeter"
+                    style="@style/form_input"
+                    android:inputType="numberDecimal"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="@dimen/profile_row_height"
+                >
+
+                <Button
+                    android:id="@+id/optFeet"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_left_on"
+                    android:text="@string/menu4b_text5b"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textAllCaps="false"/>
+
+                <Button
+                    android:id="@+id/optMeter"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_right_off"
+                    android:text="@string/menu4b_text5c"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textAllCaps="false"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_row_height"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/menu4b_text6a"
+                android:textColor="#344C1A"
+                android:textSize="@dimen/profile_label_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1.5"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/form_input_margin"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/tvAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="28"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_age_text_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu4b_text6c"
+                    android:gravity="center_vertical"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_years_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5">
+
+                <Button
+                    android:id="@+id/btnDecAge"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_age_less_draw" />
+                <Button
+                    android:id="@+id/btnIncAge"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/btn_age_more_draw" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/age_seek_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="120"
+            android:progress="28"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:indeterminateTint="@color/colorPrimary"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_activity_row_height"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/menu4b_text8a"
+                android:textColor="#344C1A"
+                android:textSize="@dimen/profile_label_text_size"
+                android:textStyle="bold"
+                android:id="@+id/textView4" />
+
+            <ImageView
+                android:id="@+id/activity_low"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_pal_low_on"
+                />
+
+            <ImageView
+                android:id="@+id/activity_medium"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_pal_medium_off"
+                />
+
+            <ImageView
+                android:id="@+id/activity_high"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:scaleType="centerInside"
+                android:src="@drawable/btn_pal_high_off"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/profile_BMI_row_height"
+            android:layout_marginTop="@dimen/profile_row_margin"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@string/menu4b_text9a"
+                android:textColor="#344C1A"
+                android:textSize="@dimen/profile_label_text_size"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="3">
+
+                <ImageView
+                    android:id="@+id/asian_bmi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/btn_asian_draw"
+                    android:adjustViewBounds="true"
+                    />
+                <ImageView
+                    android:id="@+id/non_asian_bmi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/btn_nonasian_draw"
+                    android:adjustViewBounds="true"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
