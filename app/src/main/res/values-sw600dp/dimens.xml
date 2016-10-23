@@ -34,5 +34,6 @@
 	<dimen name="profile_label_text_size">28sp</dimen>
 	<dimen name="profile_age_text_size">44sp</dimen>
 	<dimen name="profile_years_text_size">26sp</dimen>
+	<dimen name="profile_bmi_text_size">36sp</dimen>
 
 </resources>

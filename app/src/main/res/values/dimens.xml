@@ -33,6 +33,7 @@
 	<dimen name="profile_label_text_size">14sp</dimen>
 	<dimen name="profile_age_text_size">22sp</dimen>
 	<dimen name="profile_years_text_size">13sp</dimen>
+	<dimen name="profile_bmi_text_size">18sp</dimen>
 
 	<dimen name="profile_photo_size">64dp</dimen>
 	<dimen name="profile_photo_padding">6dp</dimen>

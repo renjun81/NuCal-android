@@ -42,12 +42,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="BMI:12.04"
-            android:textSize="18sp"
+            android:textSize="@dimen/profile_bmi_text_size"
             android:textStyle="bold"
             android:textColor="#344C1A"
             android:layout_centerHorizontal="true"
             android:layout_alignBottom="@id/ivBMIBoard"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="@dimen/base4pt"
             />
     </RelativeLayout>
 
