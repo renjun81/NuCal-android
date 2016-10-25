@@ -94,21 +94,6 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    public void ShowDialog(){
-            final Dialog dialog = new Dialog(MyFoodListActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_message);
-            dialog.setTitle("setDetails");
-            Button button1 = (Button) dialog.findViewById(R.id.button1);
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.cancel();
-                }
-            });
-            dialog.show();
-
-    }
     public void ShowDialog1(){
         final Dialog dialog = new Dialog(MyFoodListActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

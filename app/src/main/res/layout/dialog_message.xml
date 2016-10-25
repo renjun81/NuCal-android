@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="@dimen/dialog_width"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:padding="@dimen/dialog_padding"
@@ -8,13 +8,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base8pt"
         android:layout_marginBottom="@dimen/base8pt"
+        android:gravity="center"
         android:textSize="@dimen/dialog_title_text_size"
-        android:text="No food is selected. Please add Food or go to My Food List to select Food."
+        android:text="No Message"
         android:textColor="#000000"
         />
 

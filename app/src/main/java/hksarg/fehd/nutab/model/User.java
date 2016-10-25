@@ -1,9 +1,21 @@
 package hksarg.fehd.nutab.model;
 
+import android.database.Cursor;
+import android.graphics.Bitmap;
+
+import com.activeandroid.Cache;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
 
+import org.parceler.Parcel;
+
+import java.nio.ByteBuffer;
+import java.util.List;
+
+@Parcel(analyze = User.class)
 @Table(name = "tbl_user")
 public class User extends Model{
 
@@ -49,4 +61,62 @@ public class User extends Model{
 
     @Column(name="energy_required")
     public int energyRequired;
+
+    @Column(name="is_active")
+    public boolean isActive;
+
+    @Column(name="avatar")
+    public byte[] avatar;
+
+    @Column(name="avatar_config")
+    protected String avatarConfig;
+
+    @Column(name="avatar_width")
+    protected int avatarWidth;
+
+    @Column(name="avatar_height")
+    protected int avatarHeight;
+
+    public void setAvatar(Bitmap bitmap) {
+        if ( bitmap != null && bitmap.getWidth() > 0 ) {
+            avatarConfig = bitmap.getConfig().name();
+            avatarWidth = bitmap.getWidth();
+            avatarHeight = bitmap.getHeight();
+            int size = bitmap.getRowBytes() * bitmap.getHeight();
+            ByteBuffer byteBuffer = ByteBuffer.allocate(size);
+            bitmap.copyPixelsToBuffer(byteBuffer);
+            this.avatar = byteBuffer.array();
+        }
+    }
+
+    public Bitmap getAvatar() {
+        if ( avatar != null && avatarConfig != null ) {
+            Bitmap.Config configBmp = Bitmap.Config.valueOf(avatarConfig);
+            Bitmap bitmap = Bitmap.createBitmap(avatarWidth, avatarHeight, configBmp);
+            ByteBuffer buffer = ByteBuffer.wrap(avatar);
+            bitmap.copyPixelsFromBuffer(buffer);
+            return bitmap;
+        }
+
+        return null;
+    }
+
+    public static Cursor fetchResultCursor() {
+        String tableName = Cache.getTableInfo(User.class).getTableName();
+        // Query all items without any conditions
+        String resultRecords = new Select(tableName + ".*, " + tableName + ".Id as _id").from(User.class).toSql();
+        // Execute query on the underlying ActiveAndroid SQLite database
+        Cursor resultCursor = Cache.openDatabase().rawQuery(resultRecords, null);
+        return resultCursor;
+    }
+
+    public static List<User> getAll() {
+        return new Select().from(User.class).execute();
+    }
+
+    public long setAsDefaultUser() {
+        new Update(User.class).set("is_active=0").execute();
+        this.isActive = true;
+        return save();
+    }
 }

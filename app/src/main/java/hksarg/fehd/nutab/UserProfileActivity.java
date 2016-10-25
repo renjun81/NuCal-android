@@ -2,13 +2,19 @@ package hksarg.fehd.nutab;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Point;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,9 +22,22 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.activeandroid.query.Select;
+import com.activeandroid.query.Update;
+
+import org.parceler.Parcels;
+
+import java.io.IOException;
+
 import hksarg.fehd.nutab.model.User;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener{
+
+    public static final int OPEN_FOR_CUR_USER = 0;
+    public static final int OPEN_FOR_NEW_USER = 1;
+    public static final int OPEN_FOR_ADD_USER = 2;
+    public static final int OPEN_FOR_CHG_USER = 3;
+    private static final int PICK_IMAGE_REQUEST = 1000;
 
     ImageView   ivAvatar;
     EditText    edtName;
@@ -54,7 +73,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         TextView tvTitle = (TextView) findViewById(R.id.tvTitle);
         tvTitle.setText(R.string.menu4b_t40_edit);
-
         ImageView btnChangeUser = (ImageView) findViewById(R.id.btnLeft);
         btnChangeUser.setImageResource(R.drawable.btn_changeuser_draw);
         btnChangeUser.setOnClickListener(new View.OnClickListener() {
@@ -65,19 +83,35 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        final int openMode = getIntent().getIntExtra("open_mode", OPEN_FOR_CUR_USER);
+        if(openMode == OPEN_FOR_NEW_USER) {
+            btnChangeUser.setVisibility(View.GONE);
+        }
+        else if ( openMode == OPEN_FOR_ADD_USER ){
+
+        }
+        else {
+            if ( openMode == OPEN_FOR_CUR_USER ) {
+                m_user = new Select().from(User.class).where("is_active=1").executeSingle();
+            }
+            else {
+                long id = getIntent().getLongExtra("user_id", 0);
+                m_user = User.load(User.class, id);
+            }
+        }
+
+        if ( m_user == null )
+            m_user = new User();
+
         View btnHome = findViewById(R.id.btnRight);
         btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle extra=getIntent().getExtras();
-                if(extra!=null){
-                    Intent intent = new Intent(UserProfileActivity.this,MainActivity.class);
+                if ( saveUser() ) {
+                    Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
-                }
-                else {
-                    onBackPressed();
                 }
             }
         });
@@ -142,8 +176,13 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvAge.setText(i+"");
+            public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
+                if ( fromUser ) {
+                    if ( i  >= 7 )
+                        tvAge.setText(i + "");
+                    else
+                        seekBar.setProgress(7);
+                }
             }
 
             @Override
@@ -157,10 +196,116 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-        m_user = new User();
 
-        edtName.setText("Tester");
-        optMeter.performClick();
+
+        if (TextUtils.isEmpty(m_user.name) ) {
+            optMale.performClick();
+            optKG.performClick();
+            optMeter.performClick();
+            activity_low.performClick();
+
+            bmiMeter.setVisibility(View.GONE);
+            llEnergyRequired.setVisibility(View.GONE);
+        }
+        else {
+            Bitmap avatar = m_user.getAvatar();
+            if ( avatar != null )
+                ivAvatar.setImageBitmap(avatar);
+
+            edtName.setText(m_user.name);
+            setTwoOption(optMale, optFemale, m_user.gender == User.GENDER_MALE);
+            edtWeight.setText(format(m_user.weight));
+            setTwoOption(optLBS, optKG, m_user.weightUnit == User.WEIGHT_UNIT_LBS);
+
+            if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
+                edtHeightFeet.setVisibility(View.GONE);
+                edtHeightInch.setVisibility(View.GONE);
+
+                edtHeightMeter.setText(format(m_user.height));
+            }
+            else {
+                edtHeightMeter.setVisibility(View.GONE);
+
+                float inches = m_user.height * 39.3701f;
+                int foot = (int) (inches / 12);
+                int inch = (int) (inches % 12);
+                edtHeightFeet.setText(foot + "");
+                edtHeightInch.setText(inch + "");
+            }
+            setTwoOption(optFeet, optMeter, m_user.heightUnit == User.HEIGHT_UNIT_FEET);
+
+            tvAge.setText(m_user.age + "");
+            seekbar.setProgress(m_user.age);
+            setActivityLevel(m_user.activityLevel);
+            edtEnergyRequired.setText(m_user.energyRequired + "");
+
+            updateBMI();
+        }
+    }
+
+    private boolean saveUser() {
+        m_user.name = edtName.getText().toString();
+        if ( TextUtils.isEmpty(m_user.name) ) {
+            AppConfig.showMessageDialog(this, R.string.menu4b_d02);
+            return false;
+        }
+
+        if ( m_user.getId() == null ) {
+            User user = new Select().from(User.class).where("name='" + m_user.name + "'").executeSingle();
+            if (user != null) {
+                AppConfig.showMessageDialog(this, R.string.menu4b_d01);
+                return false;
+            }
+        }
+
+        float weight = parseFloat(edtWeight.getText().toString());
+        if ( weight == 0 ) {
+            AppConfig.showMessageDialog(this, R.string.menu4b_d03);
+            return false;
+        }
+        if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
+            m_user.weight = weight;
+            if ( weight >= 200 ) {
+                AppConfig.showMessageDialog(this, R.string.menu4b_d10);
+                return false;
+            }
+        }
+        else {
+            m_user.weight = weight * 2.20462f;
+            if ( weight > 400 ) {
+                AppConfig.showMessageDialog(this, R.string.menu4b_d09);
+                return false;
+            }
+        }
+        if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
+            m_user.height = parseFloat(edtHeightMeter.getText().toString());
+            if ( m_user.height >= 3 ) {
+                AppConfig.showMessageDialog(this, R.string.menu4b_d11);
+                return false;
+            }
+        }
+        else {
+            float feet = 0, inch = 0;
+            if (edtHeightFeet.getText().toString().length() > 0)
+                feet = parseFloat(edtHeightFeet.getText().toString());
+            if (edtHeightInch.getText().toString().length() > 0)
+                inch = parseFloat(edtHeightInch.getText().toString());
+            m_user.height = (feet * 12 + inch) * 0.0254f;
+            if ( feet >= 10 ) {
+                AppConfig.showMessageDialog(this, R.string.menu4b_d12);
+                return false;
+            }
+        }
+        if ( m_user.height == 0 ) {
+            AppConfig.showMessageDialog(this, R.string.menu4b_d04);
+            return false;
+        }
+        m_user.age = seekbar.getProgress();
+
+        long id = m_user.setAsDefaultUser();
+        Log.e("####", "insert user = " + id);
+
+        return true;
     }
 
     @Override
@@ -168,6 +313,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         switch(view.getId()) {
 
             case R.id.ivAvatar:
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, PICK_IMAGE_REQUEST);
                 break;
 
             case R.id.optMale:
@@ -181,75 +329,63 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.optLBS:
-                m_user.weightUnit = User.WEIGHT_UNIT_LBS;
                 setTwoOption(optLBS, optKG, true);
-                try {
-                    if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
-                        double weight = Double.parseDouble(edtWeight.getText().toString());
-                        weight = weight * 2.20462;
-                        edtWeight.setText(weight + "");
-                    }
+                if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
+                    float weight = parseFloat(edtWeight.getText().toString());
+                    weight = weight * 2.20462f;
+                    edtWeight.setText(format(weight));
                 }
-                catch (Exception e){}
+                m_user.weightUnit = User.WEIGHT_UNIT_LBS;
                 break;
 
             case R.id.optKG:
-                m_user.weightUnit = User.WEIGHT_UNIT_KG;
                 setTwoOption(optLBS, optKG, false);
-                try {
-                    if ( m_user.weightUnit == User.WEIGHT_UNIT_LBS ) {
-                        double weight = Double.parseDouble(edtWeight.getText().toString());
-                        weight = weight * 0.453592;
-                        edtWeight.setText(weight + "");
-                    }
+                if ( m_user.weightUnit == User.WEIGHT_UNIT_LBS ) {
+                    float weight = parseFloat(edtWeight.getText().toString());
+                    weight = weight * 0.453592f;
+                    edtWeight.setText(format(weight));
                 }
-                catch (Exception e){}
+                m_user.weightUnit = User.WEIGHT_UNIT_KG;
                 break;
 
             case R.id.optFeet:
-                m_user.heightUnit = User.HEIGHT_UNIT_FEET;
-                setTwoOption(optFeet, optMeter, true);
-                edtHeightFeet.setVisibility(View.VISIBLE);
-                edtHeightInch.setVisibility(View.VISIBLE);
-                edtHeightMeter.setVisibility(View.GONE);
-                try {
+                if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
+                    m_user.heightUnit = User.HEIGHT_UNIT_FEET;
+                    setTwoOption(optFeet, optMeter, true);
+                    edtHeightFeet.setVisibility(View.VISIBLE);
+                    edtHeightInch.setVisibility(View.VISIBLE);
+                    edtHeightMeter.setVisibility(View.GONE);
                     if (edtHeightMeter.getText().toString().length() > 0) {
-                        double height = Double.parseDouble(edtHeightMeter.getText().toString());
-                        double inches=height*39.3701;
-                        int foot= (int) (inches/12);
-                        int inch= (int) (inches%12);
-                        edtHeightFeet.setText(foot+"");
-                        edtHeightInch.setText(inch+"");
+                        float height = parseFloat(edtHeightMeter.getText().toString());
+                        float inches = height * 39.3701f;
+                        int foot = (int) (inches / 12);
+                        int inch = (int) (inches % 12);
+                        edtHeightFeet.setText(foot + "");
+                        edtHeightInch.setText(inch + "");
                     }
                 }
-                catch (Exception e){}
                 break;
 
             case R.id.optMeter:
-                m_user.heightUnit = User.HEIGHT_UNIT_METER;
-                setTwoOption(optFeet, optMeter, false);
-                edtHeightFeet.setVisibility(View.GONE);
-                edtHeightInch.setVisibility(View.GONE);
-                edtHeightMeter.setVisibility(View.VISIBLE);
-                try{
-                    int total_inch=0;
+                if ( m_user.heightUnit == User.HEIGHT_UNIT_FEET ) {
+                    m_user.heightUnit = User.HEIGHT_UNIT_METER;
+                    setTwoOption(optFeet, optMeter, false);
+                    edtHeightFeet.setVisibility(View.GONE);
+                    edtHeightInch.setVisibility(View.GONE);
+                    edtHeightMeter.setVisibility(View.VISIBLE);
                     float feet = 0, inch = 0;
-                    if(edtHeightFeet.getText().toString().length()>0)
-                        feet = Float.parseFloat(edtHeightFeet.getText().toString());
-                    if (edtHeightInch.getText().toString().length()>0)
-                        inch = Float.parseFloat(edtHeightInch.getText().toString());
-                    edtHeightMeter.setText( (feet*12+inch)*0.0254 + "");
+                    if (edtHeightFeet.getText().toString().length() > 0)
+                        feet = parseFloat(edtHeightFeet.getText().toString());
+                    if (edtHeightInch.getText().toString().length() > 0)
+                        inch = parseFloat(edtHeightInch.getText().toString());
+                    edtHeightMeter.setText(format((feet * 12 + inch) * 0.0254f));
                 }
-                catch (Exception e){}
                 break;
 
             case R.id.btnDecAge:
                 try {
                     int i = Integer.parseInt(tvAge.getText().toString());
-                    if(i==0){
-
-                    }
-                    else {
+                    if(i > 7){
                         i--;
                         tvAge.setText(i + "");
                         seekbar.setProgress(i);
@@ -261,10 +397,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             case R.id.btnIncAge:
                 try {
                     int i = Integer.parseInt(tvAge.getText().toString());
-                    if(i==120){
-
-                    }
-                    else {
+                    if(i < 120){
                         i++;
                         tvAge.setText(i + "");
                         seekbar.setProgress(i);
@@ -286,26 +419,48 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.asian_bmi:
+                AppConfig.showMessageDialog(this, R.string.menu4b_d13);
                 ivBMIBoard.setImageResource(R.drawable.balance_asian);
-                updateBMI();
+                if ( bmiMeter.getVisibility() == View.VISIBLE )
+                    updateBMI();
+                else
+                    showBMIMeter();
                 break;
 
             case R.id.non_asian_bmi:
+                AppConfig.showMessageDialog(this, R.string.menu4b_d13);
                 ivBMIBoard.setImageResource(R.drawable.balance_nonasian);
-                updateBMI();
+                if ( bmiMeter.getVisibility() == View.VISIBLE )
+                    updateBMI();
+                else
+                    showBMIMeter();
                 break;
         }
     }
 
-    public void setTwoOption(View optLeft, View optRight, boolean onLeft){
-        if ( onLeft ) {
-            optLeft.setBackgroundResource(R.drawable.btn_left_on);
-            optRight.setBackgroundResource(R.drawable.btn_right_off);
-        }
-        else {
-            optLeft.setBackgroundResource(R.drawable.btn_left_off);
-            optRight.setBackgroundResource(R.drawable.btn_right_on);
-        }
+    private void showBMIMeter() {
+        int nTop = bmiMeter.getTop();
+        TranslateAnimation anim = new TranslateAnimation(bmiMeter.getLeft(), bmiMeter.getLeft(),
+                nTop + bdHeight + llEnergyRequired.getHeight(), nTop);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                bmiMeter.setVisibility(View.VISIBLE);
+                llEnergyRequired.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                updateBMI();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        anim.setDuration(800);
+        bmiMeter.startAnimation(anim);
     }
 
     private void updateBMI() {
@@ -319,20 +474,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             height = ( feet * 12 + inch ) * 0.0254f;
 
         if ( edtName.getText().toString().trim().length() == 0 || weight == 0 || height == 0 ) {
-            final Dialog dialog = new Dialog(UserProfileActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.dialog_message);
-            dialog.setTitle("setDetails");
-            TextView tv = (TextView) dialog.findViewById(R.id.tv);
-            tv.setText(R.string.menu4b_d08);
-            Button button1 = (Button) dialog.findViewById(R.id.button1);
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.cancel();
-                }
-            });
-            dialog.show();
+            AppConfig.showMessageDialog(this, R.string.menu4b_d08);
         }
         else {
             // -19.5 == 18.5 BMI
@@ -365,6 +507,21 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         return ret;
     }
 
+    private String format(float value) {
+        return value < 0.01 ? "" : String.format("%.02f", value);
+    }
+
+    public void setTwoOption(View optLeft, View optRight, boolean onLeft){
+        if ( onLeft ) {
+            optLeft.setBackgroundResource(R.drawable.btn_left_on);
+            optRight.setBackgroundResource(R.drawable.btn_right_off);
+        }
+        else {
+            optLeft.setBackgroundResource(R.drawable.btn_left_off);
+            optRight.setBackgroundResource(R.drawable.btn_right_on);
+        }
+    }
+
     public void setActivityLevel(int activityLevel){
         m_user.activityLevel = activityLevel;
         switch (activityLevel){
@@ -386,4 +543,18 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                ivAvatar.setImageBitmap(bitmap);
+                m_user.setAvatar(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

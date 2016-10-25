@@ -44,6 +44,9 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
             android:name="AA_MODELS"
             android:value="hksarg.fehd.nutab.model.Food, hksarg.fehd.nutab.model.User" />
 

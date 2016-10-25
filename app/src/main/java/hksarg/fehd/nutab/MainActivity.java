@@ -65,10 +65,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewFlipper.setFlipInterval(9000);
 
         viewFlipper.startFlipping();
-
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        Log.e("###", "Screen density = " + dm.density + ", " + dm.densityDpi + ", " + dm.scaledDensity);
-        Log.e("###", "Screen size = " + dm.widthPixels + " x " + dm.heightPixels);
     }
 
     @Override
@@ -86,21 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.my_intake_iv:
                 {
-                    final Dialog dialog = new Dialog(MainActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    dialog.setContentView(R.layout.dialog_message);
-                    dialog.setTitle("setDetails");
-                    TextView tv= (TextView) dialog.findViewById(R.id.tv);
-                    tv.setText("No food is Selected. Please add Food or go to My Food List to select Food.");
-                    Button button1 = (Button) dialog.findViewById(R.id.button1);
-
-                    button1.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog.cancel();
-                        }
-                    });
-                    dialog.show();
+                    AppConfig.showMessageDialog(this, R.string.menu3a_d00);
 
                     //startActivity(new Intent(MainActivity.this, MyIntakeActivity.class));
                 }

@@ -1,18 +1,16 @@
 package hksarg.fehd.nutab;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.activeandroid.query.Select;
+import com.activeandroid.util.SQLiteUtils;
+
+import hksarg.fehd.nutab.model.User;
 
 public class HelpActivity extends AppCompatActivity {
 
@@ -21,8 +19,9 @@ public class HelpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
 
-        final SharedPreferences sp=getSharedPreferences("nutrition.txt", Context.MODE_PRIVATE);
-        boolean isSetProfile = sp.getBoolean("set_profile",false);
+        String query = new Select("COUNT(*)").from(User.class).toSql();
+        int nUsers = SQLiteUtils.intQuery(query, null);
+        boolean isSetProfile = nUsers > 0;
 
         View btnProfile= findViewById(R.id.user_profile);
         findViewById(R.id.btnLeft).setVisibility(View.GONE);
@@ -49,11 +48,8 @@ public class HelpActivity extends AppCompatActivity {
                 btnProfile.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        SharedPreferences.Editor editor = sp.edit();
-                        editor.putBoolean("login", true);
-                        editor.commit();
                         Intent intent = new Intent(HelpActivity.this, UserProfileActivity.class);
-                        intent.putExtra("back", "back");
+                        intent.putExtra("open_mode", UserProfileActivity.OPEN_FOR_NEW_USER);
                         startActivity(intent);
                         finish();
                     }

@@ -199,7 +199,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 dialog.cancel();
                 startActivity(new Intent(AddFoodActivity.this,MainActivity.class));
-                finishAffinity();
+                finish();
             }
         });
         turn_on.setOnClickListener(new View.OnClickListener() {

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingTranslation">
     <string name="app_name">營計寶NuCal</string>
+    <string name="label_delete">Delete</string>
 
     <string name="menu4a_title">About NuCal</string>
     <string name="menu4d_title">Help</string>

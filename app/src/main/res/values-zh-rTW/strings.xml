@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">營計寶NuCal</string>
+    <string name="label_delete">刪除</string>
 
     <string name="menu4a_title">關於營計寶</string>
     <string name="menu4d_title">說明</string>

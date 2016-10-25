@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:clickToClose="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/swipeView"
+    >
+
+    <TextView
+        android:id="@+id/trash"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text="@string/label_delete"
+        android:textSize="@dimen/dialog_title_text_size"
+        android:textColor="@android:color/white"
+        android:background="@drawable/red"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/base8pt"
+        android:paddingRight="@dimen/base8pt"
+        android:paddingTop="@dimen/base3pt"
+        android:paddingBottom="@dimen/base3pt"
+        >
+
+        <RadioButton
+            android:id="@+id/optActive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:button="@drawable/btn_radio_draw"
+            android:background="@android:color/transparent"
+            />
+
+        <ImageView
+            android:id="@+id/ivAvatar"
+            android:layout_width="@dimen/user_list_icon_size"
+            android:layout_height="@dimen/user_list_icon_size"
+            android:layout_marginLeft="@dimen/base8pt"
+            android:padding="@dimen/base3pt"
+            android:background="@drawable/userpic_bg"
+            android:src="@drawable/userpic_default"
+            />
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_label_text_size"
+            android:layout_marginLeft="@dimen/base4pt"
+            android:text="butter" />
+
+        <ImageView
+            android:id="@+id/btnGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_details_draw" />
+
+    </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>

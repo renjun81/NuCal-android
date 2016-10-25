@@ -30,7 +30,7 @@ public class ShowFoodNutrients extends AppCompatActivity {
                 Intent intent = new Intent(ShowFoodNutrients.this,MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finishAffinity();
+                finish();
             }
         });
 

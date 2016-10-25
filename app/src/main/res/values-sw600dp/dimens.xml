@@ -26,10 +26,14 @@
 	<dimen name="intake_header_text_size">24sp</dimen>
 	<dimen name="subtitle_text_size">44sp</dimen>
 
+	<dimen name="dialog_width">560dp</dimen>
 	<dimen name="dialog_title_text_size">40sp</dimen>
 	<dimen name="dialog_message_text_size">32sp</dimen>
 	<dimen name="dialog_button_text_size">32sp</dimen>
 	<dimen name="dialog_padding">40dp</dimen>
+
+	<dimen name="user_list_icon_size">96dp</dimen>
+	<dimen name="list_label_text_size">36sp</dimen>
 
 	<dimen name="profile_label_text_size">28sp</dimen>
 	<dimen name="profile_age_text_size">44sp</dimen>

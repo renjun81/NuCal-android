@@ -6,4 +6,7 @@
 
     <color name="bg_pink">#FECECE</color>
     <color name="bg_yellow">#FFFED7</color>
+
+    <color name="red">#FF3B00</color>
+    <color name="red_press">#990000</color>
 </resources>

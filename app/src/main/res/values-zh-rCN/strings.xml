@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">营计宝NuCal</string>
+    <string name="label_delete">删除</string>
 
     <string name="menu4a_title">关于营计宝</string>
     <string name="menu4d_title">说明</string>

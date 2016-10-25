@@ -13,12 +13,12 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="2">
 
-        <ImageView
+        <CheckBox
             android:id="@+id/check_image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/checklist_on" />
+            android:button="@drawable/checklist_draw" />
 
         <TextView
             android:layout_width="wrap_content"
