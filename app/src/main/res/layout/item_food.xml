@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:clickToClose="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/swipeView"
+    >
+
+    <TextView
+        android:id="@+id/trash"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text="@string/label_delete"
+        android:textSize="@dimen/dialog_title_text_size"
+        android:textColor="@android:color/white"
+        android:background="@drawable/red"
+        />
+
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -14,17 +37,19 @@
         android:layout_weight="2">
 
         <CheckBox
-            android:id="@+id/check_image1"
+            android:id="@+id/chkSelected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/base8pt"
             android:button="@drawable/checklist_draw" />
 
         <TextView
+            android:id="@+id/tvFoodName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/base8pt"
+            android:textSize="@dimen/form_label_text_size"
             android:text="butter" />
 
     </LinearLayout>
@@ -38,6 +63,7 @@
         android:weightSum="5">
 
         <ImageView
+            android:id="@+id/icFat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,6 +71,7 @@
             />
 
         <ImageView
+            android:id="@+id/icSalt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,6 +79,7 @@
             />
 
         <ImageView
+            android:id="@+id/icSugar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,6 +87,7 @@
             />
 
         <ImageView
+            android:id="@+id/icBest"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -66,7 +95,7 @@
             />
 
         <ImageView
-            android:id="@+id/edit_food"
+            android:id="@+id/btnGo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -74,3 +103,5 @@
 
     </LinearLayout>
 </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>

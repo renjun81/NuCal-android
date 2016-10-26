@@ -38,9 +38,8 @@
                     android:id="@+id/textView8" />
 
                 <EditText
-                    android:id="@+id/food_name_et"
+                    android:id="@+id/edtName"
                     style="@style/form_input"
-                    android:textSize="32sp"
                     />
 
             </LinearLayout>

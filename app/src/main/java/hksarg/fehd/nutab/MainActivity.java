@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AnimationUtils;
@@ -114,6 +112,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        final Dialog dialog = new Dialog(mContext, android.R.style.Theme_DeviceDefault_Dialog);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_confirm);
+        TextView tvMessage = (TextView) dialog.findViewById(R.id.tvMessage);
+        tvMessage.setText(R.string.menu2a_d01);
+        dialog.findViewById(R.id.btnYes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+                finish();
+            }
+        });
+        dialog.findViewById(R.id.btnNo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
     }
 
     public void showSettingDialog() {

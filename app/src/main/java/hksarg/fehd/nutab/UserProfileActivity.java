@@ -382,28 +382,24 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
 
-            case R.id.btnDecAge:
-                try {
-                    int i = Integer.parseInt(tvAge.getText().toString());
-                    if(i > 7){
-                        i--;
-                        tvAge.setText(i + "");
-                        seekbar.setProgress(i);
-                    }
+            case R.id.btnDecAge: {
+                int i = parseInt(tvAge.getText().toString());
+                if (i > 7) {
+                    i--;
+                    tvAge.setText(i + "");
+                    seekbar.setProgress(i);
                 }
-                catch (Exception e){}
+            }
                 break;
 
-            case R.id.btnIncAge:
-                try {
-                    int i = Integer.parseInt(tvAge.getText().toString());
-                    if(i < 120){
-                        i++;
-                        tvAge.setText(i + "");
-                        seekbar.setProgress(i);
-                    }
+            case R.id.btnIncAge: {
+                int i = parseInt(tvAge.getText().toString());
+                if (i < 120) {
+                    i++;
+                    tvAge.setText(i + "");
+                    seekbar.setProgress(i);
                 }
-                catch (Exception e){}
+            }
                 break;
 
             case R.id.activity_low:
@@ -497,6 +493,14 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private int parseInt(String str) {
+        int ret = 0;
+        try {
+            ret = Integer.parseInt(str);
+        }
+        catch(Exception e) {}
+        return ret;
+    }
     private float parseFloat(String str) {
         float ret = 0;
         try {
