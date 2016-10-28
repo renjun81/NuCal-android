@@ -3,36 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingTop="7dp"
-    android:paddingBottom="7dp"
+    android:paddingTop="@dimen/base8pt"
+    android:paddingBottom="@dimen/base8pt"
     android:paddingLeft="@dimen/base_margin"
     android:paddingRight="@dimen/base_margin"
     >
 
     <TextView
+        android:id="@+id/tvFoodName"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="butter"
-        android:textSize="14sp"/>
+        android:textSize="@dimen/form_label_text_size"/>
 
     <TextView
+        android:id="@+id/tvAmount"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="right"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="@dimen/base4pt"
+        android:layout_marginLeft="@dimen/base4pt"
         android:text="g/ml"
-        android:textSize="14sp"
+        android:textSize="@dimen/form_label_text_size"
         android:ellipsize="end"
         />
 
     <TextView
+        android:id="@+id/tvPackageUnit"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:text="100g/ml"
-        android:textSize="14sp"/>
+        android:textSize="@dimen/form_label_text_size"/>
 
 </LinearLayout>

@@ -19,9 +19,12 @@
 
         <ImageView
             android:id="@+id/ivAvatar"
-            android:layout_width="@dimen/user_photo_size"
-            android:layout_height="@dimen/user_photo_size"
-            android:src="@drawable/userpic_default" />
+            android:layout_width="@dimen/user_list_icon_size"
+            android:layout_height="@dimen/user_list_icon_size"
+            android:src="@drawable/userpic_default"
+            android:padding="@dimen/base3pt"
+            android:background="@drawable/userpic_bg"
+            />
 
         <TextView
             android:id="@+id/tvUserName"
@@ -122,57 +125,71 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/bg_yellow"
                 />
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/llIndexHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/base4pt"
+                    android:paddingBottom="@dimen/base4pt"
+                    android:paddingLeft="@dimen/base8pt"
+                    android:paddingRight="@dimen/base8pt"
+                    android:background="@color/bg_pink"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu3a_type20_header_text6a"
+                        android:textColor="#5F7351"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/intake_header_text_size"/>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/menu3a_type20_header_text6b"
+                        android:textColor="#5F7351"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/intake_header_text_size"
+                        android:id="@+id/textView7" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="@string/menu3a_type20_header_text6c"
+                        android:textColor="#5F7351"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/intake_header_text_size"/>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/intake_list_end"
+                    />
+
+            </FrameLayout>
+
             <LinearLayout
-                android:id="@+id/llIndexes"
+                android:id="@+id/llIndexContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingTop="@dimen/base4pt"
-                android:paddingBottom="@dimen/base4pt"
-                android:paddingLeft="@dimen/base8pt"
-                android:paddingRight="@dimen/base8pt"
-                android:background="@color/bg_pink"
-                >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu3a_type20_header_text6a"
-                    android:textColor="#5F7351"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/intake_header_text_size"/>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/menu3a_type20_header_text6b"
-                    android:textColor="#5F7351"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/intake_header_text_size"
-                    android:id="@+id/textView7" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/menu3a_type20_header_text6c"
-                    android:textColor="#5F7351"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/intake_header_text_size"/>
-
-            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
@@ -183,7 +200,16 @@
         android:layout_height="wrap_content"
         android:src="@drawable/btn_calculate_draw"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/base8pt"
+        />
+
+    <ImageView
+        android:id="@+id/btnSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/btn_savehistory_draw"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/base8pt"
         />
 
 </LinearLayout>

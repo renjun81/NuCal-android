@@ -100,6 +100,10 @@ public class Food extends Model {
         return SQLiteUtils.intQuery(query, null);
     }
 
+    public static List<Food> getSelectedFoods() {
+        return new Select().from(Food.class).where("is_selected=1").execute();
+    }
+
     public static List<Food> getFoodList(int foodType) {
         List<Food> foodList = new Select().from(Food.class).execute();
         if ( foodType == FOOD_ALL || foodList == null)

@@ -1,35 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:clickToClose="true"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:id="@+id/swipeView"
+    android:background="@drawable/gray_selector"
+    >
+
+    <TextView
+        android:id="@+id/trash"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/base_margin"
+        android:paddingRight="@dimen/base_margin"
+        android:gravity="center"
+        android:layout_gravity="right"
+        android:text="@string/label_delete"
+        android:textSize="@dimen/dialog_title_text_size"
+        android:textColor="@android:color/white"
+        android:background="@drawable/red"
+        />
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/base8pt"
+    android:layout_marginLeft="@dimen/base8pt"
+    android:layout_marginRight="@dimen/base8pt"
     android:gravity="center_vertical"
     >
 
     <TextView
+        android:id="@+id/tvRecordedTime"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:text="2016 Oct 04 at 01:12 PM"
         android:textColor="#F44336"
-        android:textSize="16sp"
+        android:textSize="@dimen/list_label_text_size"
+        android:singleLine="true"
         />
 
     <ImageView
-        android:layout_width="32dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:src="@drawable/icon_alert"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/base8pt"
         />
+
     <ImageView
-        android:id="@+id/show_nutrient_fact"
-        android:layout_width="32dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:src="@drawable/btn_details"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="@dimen/base_margin"
         />
 </LinearLayout>
+
+</com.daimajia.swipe.SwipeLayout>

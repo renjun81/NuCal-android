@@ -92,7 +92,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }
         else {
             if ( openMode == OPEN_FOR_CUR_USER ) {
-                m_user = new Select().from(User.class).where("is_active=1").executeSingle();
+                m_user = User.getDefaultUser();
             }
             else {
                 long id = getIntent().getLongExtra("user_id", 0);

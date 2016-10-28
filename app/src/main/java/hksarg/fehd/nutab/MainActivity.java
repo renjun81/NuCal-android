@@ -17,6 +17,8 @@ import com.xdroid.widget.LocaleHelper;
 
 import java.util.Locale;
 
+import hksarg.fehd.nutab.model.Food;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private Context mContext;
@@ -71,23 +73,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(view.getId()) {
 
             case R.id.add_food_iv:
-                startActivity(new Intent(MainActivity.this, AddFoodActivity.class));
+                startActivity(new Intent(mContext, AddFoodActivity.class));
                 break;
 
             case R.id.my_food_list:
-                startActivity(new Intent(MainActivity.this, MyFoodListActivity.class));
+                startActivity(new Intent(mContext, MyFoodListActivity.class));
                 break;
 
             case R.id.my_intake_iv:
                 {
-                    AppConfig.showMessageDialog(this, R.string.menu3a_d00);
-
-                    //startActivity(new Intent(MainActivity.this, MyIntakeActivity.class));
+                    if (Food.getSelectedCount() == 0 )
+                        AppConfig.showMessageDialog(this, R.string.menu3a_d00);
+                    else
+                        startActivity(new Intent(mContext, MyIntakeActivity.class));
                 }
                 break;
 
             case R.id.my_intake_history_iv:
-                startActivity(new Intent(MainActivity.this, MyIntakeHistoryActivity.class));
+                startActivity(new Intent(mContext, MyIntakeHistoryActivity.class));
                 break;
 
             //////////////////////////

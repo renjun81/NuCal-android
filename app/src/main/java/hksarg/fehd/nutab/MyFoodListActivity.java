@@ -2,6 +2,7 @@ package hksarg.fehd.nutab;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+
+import hksarg.fehd.nutab.model.User;
 import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
 import java.util.List;
@@ -43,8 +46,31 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         tvTitle.setText(R.string.menu2b_t20_list);
         ImageView btnLeft = (ImageView) findViewById(R.id.btnLeft);
         btnLeft.setImageResource(R.drawable.btn_edit_draw);
-        btnLeft.setOnClickListener(this);
-        findViewById(R.id.btnRight).setOnClickListener(this);
+        btnLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        ImageView   ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
+        TextView    tvUserName = (TextView) findViewById(R.id.tvUserName);
+        User user = User.getDefaultUser();
+        if ( user == null ) {
+            finish();
+            return;
+        }
+        tvUserName.setText(user.name);
+        Bitmap bmp = user.getAvatar();
+        if ( bmp != null )
+            ivAvatar.setImageBitmap(user.getAvatar());
+
 
         image_spinner= (ImageView) findViewById(R.id.image_spinner);
         spinner= (Spinner) findViewById(R.id.spinner);
@@ -110,10 +136,6 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-
-            case R.id.btnRight:
-                onBackPressed();
-                break;
 
             case R.id.btnTransmit:
                 break;

@@ -45,8 +45,12 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         TextView tvTitle= (TextView) findViewById(R.id.tvTitle);
 
         findViewById(R.id.btnLeft).setVisibility(View.GONE);
-        findViewById(R.id.btnRight).setOnClickListener(this);
-        findViewById(R.id.btnSave).setOnClickListener(this);
+        findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         edtName = (EditText) findViewById(R.id.edtName);
         opt100g = findViewById(R.id.opt100g);
@@ -75,6 +79,8 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtCarboSugar = (EditText) findViewById(R.id.edtCarboSugar);
 
         edtSodium = (EditText) findViewById(R.id.edtSodium);
+
+        findViewById(R.id.btnSave).setOnClickListener(this);
 
         opt100g.setOnClickListener(packageOptListener);
         opt100ml.setOnClickListener(packageOptListener);
@@ -202,10 +208,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.optUnitKJ:
                 m_food.energyUnit = Food.ENERGY_UNIT_KJ;
                 setTwoOption(optUnitKCal, optUnitKJ, false);
-                break;
-
-            case R.id.btnRight:
-                onBackPressed();
                 break;
 
             case R.id.btnSave:

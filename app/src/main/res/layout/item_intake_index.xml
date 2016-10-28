@@ -4,7 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="@dimen/base_margin"
+    android:paddingLeft="@dimen/base_margin"
+    android:paddingRight="@dimen/base_margin"
+    android:paddingTop="@dimen/base8pt"
+    android:paddingBottom="@dimen/base8pt"
     >
 
     <LinearLayout
@@ -21,10 +24,10 @@
             android:text="Energy"
             android:textColor="#5F7351"
             android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/form_label_text_size"/>
 
         <TextView
-            android:id="@+id/tvIndexValue"
+            android:id="@+id/tvAmount"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -32,10 +35,10 @@
             android:text="358.50 kcal"
             android:textColor="#509146"
             android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/form_label_text_size"/>
 
         <TextView
-            android:id="@+id/tvIndexPercent"
+            android:id="@+id/tvPercent"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -43,7 +46,7 @@
             android:text="19%"
             android:textColor="#509146"
             android:textStyle="bold"
-            android:textSize="12sp"/>
+            android:textSize="@dimen/form_label_text_size"/>
 
     </LinearLayout>
 
@@ -52,7 +55,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/base4pt"
         android:indeterminate="false"
         android:maxHeight="10dip"
         android:minHeight="10dip"

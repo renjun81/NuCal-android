@@ -9,4 +9,5 @@
 
     <color name="red">#FF3B00</color>
     <color name="red_press">#990000</color>
+    <color name="gray_alpha">#24000000</color>
 </resources>

@@ -31,7 +31,7 @@
 	<dimen name="dialog_button_text_size">16sp</dimen>
 	<dimen name="dialog_padding">20dp</dimen>
 
-	<dimen name="user_list_icon_size">48dp</dimen>
+	<dimen name="user_list_icon_size">40dp</dimen>
 	<dimen name="list_label_text_size">18sp</dimen>
 
 	<dimen name="profile_label_text_size">14sp</dimen>

@@ -17,11 +17,15 @@
 
         <ImageView
             android:id="@+id/ivAvatar"
-            android:layout_width="@dimen/user_photo_size"
-            android:layout_height="@dimen/user_photo_size"
-            android:src="@drawable/userpic_default" />
+            android:layout_width="@dimen/user_list_icon_size"
+            android:layout_height="@dimen/user_list_icon_size"
+            android:src="@drawable/userpic_default"
+            android:padding="@dimen/base3pt"
+            android:background="@drawable/userpic_bg"
+            />
 
         <TextView
+            android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/base_margin"
@@ -31,6 +35,17 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="?android:attr/listDivider" />
 
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:duplicateParentState="false"
+        />
 
 </LinearLayout>

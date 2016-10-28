@@ -2,6 +2,7 @@ package hksarg.fehd.nutab;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -79,6 +81,12 @@ public class UserListActivity extends AppCompatActivity {
         m_adapter = new ListViewAdapter(m_context);
         m_listUsers = (ListView) findViewById(R.id.listUsers);
         m_listUsers.setAdapter(m_adapter);
+        m_listUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     @Override
@@ -105,7 +113,7 @@ public class UserListActivity extends AppCompatActivity {
 
         private void deleteRow(final View v, final User user) {
             final int initialHeight = v.getMeasuredHeight();
-            TranslateAnimation anim = new TranslateAnimation(v.getLeft(), v.getLeft() + v.getWidth(), v.getTop(), v.getTop());
+            TranslateAnimation anim = new TranslateAnimation(0, v.getWidth(), 0, 0);
             anim.setInterpolator(new AccelerateDecelerateInterpolator());
 //            Animation anim = new Animation() {
 //                @Override
@@ -146,7 +154,7 @@ public class UserListActivity extends AppCompatActivity {
 
                 }
             });
-            anim.setDuration(800);
+            anim.setDuration(400);
             v.startAnimation(anim);
         }
 
@@ -204,7 +212,11 @@ public class UserListActivity extends AppCompatActivity {
             User user = getItem(position);
             convertView.setTag(user);
             optActive.setChecked(user.isActive);
-            ivAvatar.setImageBitmap(user.getAvatar());
+            Bitmap bmp = user.getAvatar();
+            if ( bmp != null )
+                ivAvatar.setImageBitmap(bmp);
+            else
+                ivAvatar.setImageResource(R.drawable.userpic_default);
             tvUserName.setText(user.name);
         }
 

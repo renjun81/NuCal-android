@@ -37,7 +37,6 @@
         <activity android:name=".MyFoodListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".MyIntakeHistoryActivity" android:screenOrientation="portrait"/>
         <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ShowFoodNutrients" android:screenOrientation="portrait"/>
         <activity
             android:name=".MyIntakeActivity"
             android:screenOrientation="portrait"
@@ -48,7 +47,9 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="hksarg.fehd.nutab.model.Food, hksarg.fehd.nutab.model.User" />
+            android:value="hksarg.fehd.nutab.model.Food, hksarg.fehd.nutab.model.NuHist, hksarg.fehd.nutab.model.User" />
+        <meta-data android:name="AA_SERIALIZERS"
+            android:value="hksarg.fehd.nutab.serializer.DateSerializer, hksarg.fehd.nutab.serializer.SparseIntArraySerializer" />
 
     </application>
 

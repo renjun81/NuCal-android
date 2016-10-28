@@ -119,4 +119,8 @@ public class User extends Model{
         this.isActive = true;
         return save();
     }
+
+    public static User getDefaultUser() {
+        return new Select().from(User.class).where("is_active=1").executeSingle();
+    }
 }
