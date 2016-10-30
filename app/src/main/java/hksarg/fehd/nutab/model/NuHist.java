@@ -21,6 +21,7 @@ public class NuHist extends Model {
     @Column(name="food_list")
     public SparseIntArray  foodList;
 
+    @Column(name="user_id")
     public long userId;
 
     public void putFood(int foodId, int amount) {
@@ -37,7 +38,7 @@ public class NuHist extends Model {
         return fmt.format(recordTime);
     }
 
-    public static List<NuHist> getAll() {
-        return new Select().from(NuHist.class).execute();
+    public static List<NuHist> getAllByUser(long userId) {
+        return new Select().from(NuHist.class).where("user_id=" + userId).execute();
     }
 }

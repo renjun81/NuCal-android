@@ -40,4 +40,8 @@
 	<dimen name="profile_years_text_size">26sp</dimen>
 	<dimen name="profile_bmi_text_size">36sp</dimen>
 
+	<dimen name="nut_progress_height">20dp</dimen>
+	<dimen name="nut_progress_corner">10dp</dimen>
+	<dimen name="nut_100_mark_width">4dp</dimen>
+
 </resources>

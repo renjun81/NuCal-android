@@ -10,4 +10,8 @@
     <color name="red">#FF3B00</color>
     <color name="red_press">#990000</color>
     <color name="gray_alpha">#24000000</color>
+
+    <color name="color_over">#FF5B5B</color>
+    <color name="color_normal">#409335</color>
+    <color name="color_sky">#e7f5ff</color>
 </resources>

@@ -32,11 +32,11 @@ public class User extends Model{
     public static final int ACTIVITY_LEVEL_MEDIUM = 1;
     public static final int ACTIVITY_LEVEL_HIGH = 2;
 
-    @Column(name = "name")
-    public String   name;
+    @Column(name="name")
+    public String name;
 
     @Column(name="gender")
-    public int  gender;
+    public int gender;
 
     @Column(name="weight")
     public float weight;
@@ -99,6 +99,227 @@ public class User extends Model{
         }
 
         return null;
+    }
+
+    public int dailyEnergyRequired() {
+        float alpha = 0, beta = 0, gamma = 0;
+        if ( age >= 7 && age <= 10 ) {
+
+            if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                gamma = 1.55f;
+            else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                gamma = 1.75f;
+            else
+                gamma = 1.95f;
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 22.7f;
+                beta = 495;
+            }
+            else {  // female
+                alpha = 22.5f;
+                beta = 499;
+                gamma = gamma - 0.05f;
+            }
+        }
+        else if ( age >= 11 && age <= 13 ) {
+
+            if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                gamma = 1.55f;
+            else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                gamma = 1.75f;
+            else
+                gamma = 1.95f;
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 17.5f;
+                beta = 651;
+            }
+            else {
+                alpha =12.2f;
+                beta = 746;
+                gamma = gamma - 0.05f;
+            }
+        }
+        else if ( age >= 14 && age <= 17 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 17.5f;
+                beta = 651;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.60f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.80f;
+                else
+                    gamma = 2.05f;
+            }
+            else {
+                alpha = 12.2f;
+                beta = 746;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.45f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.65f;
+                else
+                    gamma = 1.85f;
+            }
+        }
+        else if ( age >= 18 && age <= 49 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 15.3f;
+                beta = 679;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.55f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.78f;
+                else
+                    gamma = 2.10f;
+            }
+            else {
+                alpha = 14.7f;
+                beta = 496;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.56f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.64f;
+                else
+                    gamma = 1.82f;
+            }
+        }
+        else if ( age >= 50 && age <= 59 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 11.6f;
+                beta = 879;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.55f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.78f;
+                else
+                    gamma = 2.10f;
+            }
+            else {
+                alpha = 8.7f;
+                beta = 829;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.56f;
+                else if ( activityLevel == ACTIVITY_LEVEL_MEDIUM )
+                    gamma = 1.64f;
+                else
+                    gamma = 1.82f;
+            }
+        }
+        else if ( age >= 60 && age <= 69 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 13.5f;
+                beta = 487;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.53f;
+                else
+                    gamma = 1.66f;
+            }
+            else {
+                alpha = 10.5f;
+                beta = 596;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.54f;
+                else
+                    gamma = 1.64f;
+            }
+        }
+        else if ( age >= 70 && age < 79 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 13.5f;
+                beta = 487;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.51f;
+                else
+                    gamma = 1.64f;
+            }
+            else {
+                alpha = 10.5f;
+                beta = 596;
+
+                if ( activityLevel == ACTIVITY_LEVEL_LOW )
+                    gamma = 1.51f;
+                else
+                    gamma = 1.62f;
+            }
+        }
+        else if ( age >= 80 ) {
+
+            if ( gender == GENDER_MALE ) {
+                alpha = 13.5f;
+                beta = 487;
+                gamma = 1.49f;
+            }
+            else {
+                alpha = 10.5f;
+                beta = 596;
+                gamma = 1.49f;
+            }
+        }
+
+        if ( age >= 18 )
+            gamma = gamma * 0.95f;
+
+        return (int)((alpha * weight + beta) * gamma);
+    }
+
+    public float energyIntake() {
+        if ( energyRequired == 0 ) {
+            energyRequired = dailyEnergyRequired();
+            energyRequired = energyRequired == 0 ? Integer.MAX_VALUE : energyRequired;
+        }
+        return energyRequired;
+    }
+
+    public float proteinIntake() {
+        return energyRequired * 0.12f / 4;
+    }
+
+    public float totalFatIntake() {
+        return energyRequired * 0.27f / 9;
+    }
+
+    public float saturatedFatIntake() {
+        return energyRequired * 0.09f / 9;
+    }
+
+    public float transFatIntake() {
+        return energyRequired * 0.01f / 9;
+    }
+
+    public float carbohydrateIntake() {
+        return energyRequired * 0.60f / 4;
+    }
+
+    public float fibreIntake() {
+        return 25;
+    }
+
+    public float sugarIntake() {
+        return energyRequired * 0.10f / 4;
+    }
+
+    public float sodiumIntake() {
+        return 2000;
+    }
+
+    public float cholesterolIntake() {
+        return 300;
     }
 
     public static Cursor fetchResultCursor() {

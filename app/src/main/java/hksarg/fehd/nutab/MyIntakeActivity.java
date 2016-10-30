@@ -83,6 +83,10 @@ public class MyIntakeActivity extends AppCompatActivity {
         if ( bmp != null )
             ivAvatar.setImageBitmap(m_user.getAvatar());
 
+        tvDailyEnergy.setText(m_user.energyRequired + getString(R.string.menu2a_text6c));
+
+        m_foodItemViews = new ArrayList<FoodViewHolder>();
+
         if ( m_nuHist == null ) {
 
             m_foods = Food.getSelectedFoods();
@@ -114,13 +118,11 @@ public class MyIntakeActivity extends AppCompatActivity {
             llIndexHeader.setVisibility(View.INVISIBLE);
             btnSave.setVisibility(View.GONE);
 
-            m_foodItemViews = new ArrayList<FoodViewHolder>();
-            m_foodItemViews.clear();
             Iterator<Food> itr = m_foods.iterator();
             while (itr.hasNext()) {
                 Food food = itr.next();
                 View item = LayoutInflater.from(this).inflate(R.layout.item_intake_food_edit, null);
-                m_foodItemViews.add(new FoodViewHolder(item, food));
+                m_foodItemViews.add(new FoodViewHolder(item, food, false));
                 llFoods.addView(item);
             }
         }
@@ -134,13 +136,9 @@ public class MyIntakeActivity extends AppCompatActivity {
                 if ( food != null ) {
                     int amount = m_nuHist.foodList.valueAt(i);
                     View item = LayoutInflater.from(this).inflate(R.layout.item_intake_food_view, null);
-                    TextView tvFoodName = (TextView) item.findViewById(R.id.tvFoodName);
-                    TextView tvAmount = (TextView) item.findViewById(R.id.tvAmount);
-                    TextView tvPackageUnit = (TextView) item.findViewById(R.id.tvPackageUnit);
-                    tvFoodName.setText(food.name);
-                    String szUnit = food.packageUnit == Food.PACKAGE_UNIT_G ? UNIT_GRAM : UNIT_ML;
-                    tvAmount.setText(amount + szUnit);
-                    tvPackageUnit.setText(food.packageSize + szUnit);
+                    FoodViewHolder holder = new FoodViewHolder(item, food, true);
+                    holder.setAmount(amount);
+                    m_foodItemViews.add(holder);
                     llFoods.addView(item);
                 }
             }
@@ -158,7 +156,7 @@ public class MyIntakeActivity extends AppCompatActivity {
             if (TextUtils.isEmpty(strAmount)) {
                 return;
             }
-            m_nuHist.putFood(holder.m_food.getId().intValue(), Integer.parseInt(strAmount));
+            m_nuHist.putFood(holder.foodData.getId().intValue(), Integer.parseInt(strAmount));
         }
 
         btnCalculate.setVisibility(View.GONE);
@@ -167,40 +165,123 @@ public class MyIntakeActivity extends AppCompatActivity {
         generateIndexViews();
     }
 
+    private String format(float value) {
+        return String.format("%.02f", value);
+    }
+
     private void generateIndexViews() {
         llIndexHeader.setVisibility(View.VISIBLE);
         llIndexContainer.removeAllViews();
 
+        float totalEnergy = 0, totalProtein = 0, totalFat = 0,
+                totalSatFat = 0, totalTransFat = 0, totalCholesterol = 0,
+                totalCarbohydrate = 0, totalFibre = 0, totalSugar = 0, totalSodium = 0;
+
+        Iterator<FoodViewHolder> itr = m_foodItemViews.iterator();
+        while( itr.hasNext() ) {
+            FoodViewHolder holder = itr.next();
+            Food food = holder.foodData;
+            float coef = holder.getAmount() / (float)food.packageSize;
+            totalEnergy = totalEnergy + coef * (food.energyUnit == Food.ENERGY_UNIT_KCAL ? food.energySize : food.energySize / 4.184f );
+            totalProtein = totalProtein + coef * food.protein;
+            totalFat = totalFat + coef * food.totalFat;
+            totalSatFat = totalSatFat + coef * food.saturatedFat;
+            totalTransFat = totalTransFat + coef * food.transFat;
+            totalCholesterol = totalCholesterol + coef * food.cholesterol;
+            totalFibre = totalFibre + coef * food.dietaryFibre;
+            totalSugar = totalSugar + coef * food.sugar;
+            totalSodium = totalSodium + coef * food.sodium;
+            if ( food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
+                totalCarbohydrate = totalCarbohydrate + coef * (food.carbohydrate - food.dietaryFibre);
+            else
+                totalCarbohydrate = totalCarbohydrate + coef * food.carbohydrate;
+        }
+
+        String UNIT_KCAL = getString(R.string.menu2a_text6c);
+        String UNIT_G = getString(R.string.menu2a_text5c_g);
+        String UNIT_MG = getString(R.string.menu2a_text11c);
+
         IndexViewHolder holder;
-        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row0_col1, "", 10);
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row0_col1,
+                (int)totalEnergy + UNIT_KCAL, totalEnergy / m_user.energyIntake(), true);
         llIndexContainer.addView(holder.container);
 
-        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row1_col1, "", 10);
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row1_col1,
+                format(totalProtein) + UNIT_G, totalProtein / m_user.proteinIntake(), false);
         llIndexContainer.addView(holder.container);
 
-        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row2_col1, "", 10);
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row2_col1,
+                format(totalFat) + UNIT_G, totalFat / m_user.totalFatIntake(), true);
         llIndexContainer.addView(holder.container);
 
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row3_col1,
+                format(totalSatFat) + UNIT_G, totalSatFat / m_user.saturatedFatIntake(), false);
+        llIndexContainer.addView(holder.container);
 
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row4_col1,
+                format(totalTransFat) + UNIT_G, totalTransFat / m_user.transFatIntake(), true);
+        llIndexContainer.addView(holder.container);
+
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row5_col1,
+                format(totalCholesterol) + UNIT_MG, totalCholesterol / m_user.cholesterolIntake(), false);
+        llIndexContainer.addView(holder.container);
+
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row6_col1,
+                format(totalCarbohydrate) + UNIT_MG, totalCarbohydrate / m_user.cholesterolIntake(), true);
+        llIndexContainer.addView(holder.container);
+
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row7_col1,
+                format(totalFibre) + UNIT_MG, totalFibre / m_user.fibreIntake(), false);
+        llIndexContainer.addView(holder.container);
+
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row8_col1,
+                format(totalSugar) + UNIT_G, totalSugar / m_user.sugarIntake(), true);
+        llIndexContainer.addView(holder.container);
+
+        holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row9_col1,
+                format(totalSodium) + UNIT_MG, totalSodium / m_user.sodiumIntake(), false);
+        llIndexContainer.addView(holder.container);
     }
 
     class FoodViewHolder {
         TextView tvFoodName;
         EditText edtAmount;
+        TextView tvAmount;
         TextView tvAmountUnit;
         TextView tvPackageUnit;
-        Food    m_food;
-        public FoodViewHolder(View view, Food food) {
+        Food foodData;
+        public FoodViewHolder(View view, Food food, boolean readOnly) {
+
+            foodData = food;
             tvFoodName = (TextView) view.findViewById(R.id.tvFoodName);
-            edtAmount = (EditText) view.findViewById(R.id.edtAmount);
             tvAmountUnit = (TextView) view.findViewById(R.id.tvAmountUnit);
             tvPackageUnit = (TextView) view.findViewById(R.id.tvPackageUnit);
 
-            m_food = food;
-            tvFoodName.setText(m_food.name);
-            String szUnit = m_food.packageUnit == Food.PACKAGE_UNIT_G ? UNIT_GRAM : UNIT_ML;
+            String szUnit = foodData.packageUnit == Food.PACKAGE_UNIT_G ? UNIT_GRAM : UNIT_ML;
+            if ( readOnly ) {
+                tvAmount = (TextView) view.findViewById(R.id.tvAmount);
+            }
+            else {
+                edtAmount = (EditText) view.findViewById(R.id.edtAmount);
+            }
+            tvFoodName.setText(foodData.name);
             tvAmountUnit.setText(szUnit);
-            tvPackageUnit.setText(m_food.packageSize + szUnit);
+            tvPackageUnit.setText(foodData.packageSize + szUnit);
+        }
+
+        public void setAmount(int amount) {
+            tvAmount.setText(amount + "");
+        }
+
+        public int getAmount() {
+            String szAmount = edtAmount == null ? tvAmount.getText().toString() : edtAmount.getText().toString();
+            int ret = 0;
+            try {
+                ret = Integer.parseInt(szAmount);
+            }
+            catch (Exception e) {}
+
+            return ret;
         }
     }
 
@@ -210,23 +291,39 @@ public class MyIntakeActivity extends AppCompatActivity {
         TextView tvAmount;
         TextView tvPercent;
         ProgressBar pgPercent;
-        public IndexViewHolder(Context context, int nResIndexName, String szAmount, int percent) {
+        View ll100Mark;
+        public IndexViewHolder(Context context, int nResIndexName, String szAmount, float percent, boolean bgWhite) {
             container = LayoutInflater.from(context).inflate(R.layout.item_intake_index, null);
             tvIndexName = (TextView) container.findViewById(R.id.tvIndexName);
             tvAmount = (TextView) container.findViewById(R.id.tvAmount);
             tvPercent = (TextView) container.findViewById(R.id.tvPercent);
+            ll100Mark = container.findViewById(R.id.ll100Mark);
             pgPercent = (ProgressBar) container.findViewById(R.id.progress);
+
+            if ( !bgWhite )
+                container.setBackgroundColor(getResources().getColor(R.color.color_sky));
 
             tvIndexName.setText(nResIndexName);
             tvAmount.setText(szAmount);
-            tvPercent.setText(percent + "%");
-            pgPercent.setProgress(percent);
-            if ( percent > 100 ) {
+            int progress = (int)(percent * 100);
+            tvPercent.setText(progress + "%");
+            if ( percent > 1 ) {
+                progress = 100 + (progress - 100) / 4;
+                ll100Mark.setVisibility(View.INVISIBLE);
+                tvAmount.setTextColor(getResources().getColor(R.color.color_over));
+                tvPercent.setTextColor(getResources().getColor(R.color.color_over));
 
+                pgPercent.setProgress(100);
+                pgPercent.setSecondaryProgress(progress);
             }
             else {
+                tvAmount.setTextColor(getResources().getColor(R.color.color_normal));
+                tvPercent.setTextColor(getResources().getColor(R.color.color_normal));
 
+                pgPercent.setProgress(progress);
+                pgPercent.setSecondaryProgress(0);
             }
+
         }
     }
 }

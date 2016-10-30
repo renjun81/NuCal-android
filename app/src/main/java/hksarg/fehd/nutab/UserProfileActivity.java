@@ -198,7 +198,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
 
 
-        if (TextUtils.isEmpty(m_user.name) ) {
+        if (m_user.getId() == null) {
             optMale.performClick();
             optKG.performClick();
             optMeter.performClick();
@@ -206,6 +206,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             bmiMeter.setVisibility(View.GONE);
             llEnergyRequired.setVisibility(View.GONE);
+
+            m_user.gender = User.GENDER_MALE;
+            m_user.weightUnit = User.WEIGHT_UNIT_KG;
+            m_user.heightUnit = User.HEIGHT_UNIT_METER;
+            m_user.activityLevel = User.ACTIVITY_LEVEL_LOW;
         }
         else {
             Bitmap avatar = m_user.getAvatar();
@@ -214,7 +219,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             edtName.setText(m_user.name);
             setTwoOption(optMale, optFemale, m_user.gender == User.GENDER_MALE);
-            edtWeight.setText(format(m_user.weight));
+            edtWeight.setText(format(m_user.weightUnit == User.WEIGHT_UNIT_KG ? m_user.weight : m_user.weight * 2.20462f));
             setTwoOption(optLBS, optKG, m_user.weightUnit == User.WEIGHT_UNIT_LBS);
 
             if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
@@ -301,6 +306,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             return false;
         }
         m_user.age = seekbar.getProgress();
+        m_user.energyRequired = parseInt(edtEnergyRequired.getText().toString());
 
         long id = m_user.setAsDefaultUser();
         Log.e("####", "insert user = " + id);
@@ -331,21 +337,21 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             case R.id.optLBS:
                 setTwoOption(optLBS, optKG, true);
                 if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
+                    m_user.weightUnit = User.WEIGHT_UNIT_LBS;
                     float weight = parseFloat(edtWeight.getText().toString());
                     weight = weight * 2.20462f;
                     edtWeight.setText(format(weight));
                 }
-                m_user.weightUnit = User.WEIGHT_UNIT_LBS;
                 break;
 
             case R.id.optKG:
                 setTwoOption(optLBS, optKG, false);
                 if ( m_user.weightUnit == User.WEIGHT_UNIT_LBS ) {
+                    m_user.weightUnit = User.WEIGHT_UNIT_KG;
                     float weight = parseFloat(edtWeight.getText().toString());
                     weight = weight * 0.453592f;
                     edtWeight.setText(format(weight));
                 }
-                m_user.weightUnit = User.WEIGHT_UNIT_KG;
                 break;
 
             case R.id.optFeet:
@@ -488,6 +494,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             ivBMIPointer.startAnimation(rotAnim);
 
             tvBMI.setText(String.format("BMI: %.1f", bmi));
+
+            m_user.weight = weight;
+            m_user.age = seekbar.getProgress();
+            m_user.energyRequired = m_user.dailyEnergyRequired();
+            edtEnergyRequired.setText(m_user.energyRequired + "");
 
             m_previousRotation = newRotation;
         }

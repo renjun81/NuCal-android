@@ -1,7 +1,5 @@
 package hksarg.fehd.nutab.model;
 
-import android.support.annotation.ColorInt;
-
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -50,6 +48,9 @@ public class Food extends Model {
     @Column(name="protein")
     public float protein;
 
+    @Column(name="total_fat")
+    public float totalFat;
+
     @Column(name="saturated_fat")
     public float saturatedFat;
 
@@ -62,11 +63,14 @@ public class Food extends Model {
     @Column(name="carbohydrate_type")
     public int carbohydrateType;
 
-    @Column(name="carbo_dietary")
-    public float carboDietary;
+    @Column(name="carbohydrate")
+    public float carbohydrate;
 
-    @Column(name="carbo_sugar")
-    public float carboSugar;
+    @Column(name="dietary_fibre")
+    public float dietaryFibre;
+
+    @Column(name="sugar")
+    public float sugar;
 
     @Column(name="sodium")
     public float sodium;
@@ -86,7 +90,7 @@ public class Food extends Model {
                 return sodium * 100 / packageSize < 120;
 
             case FOOD_LOW_SUGAR:
-                return (carboDietary + carboSugar) * 100 / packageSize < 5;
+                return (dietaryFibre + sugar) * 100 / packageSize < 5;
 
             case FOOD_THREE_LOW:
                 return isFoodType(FOOD_LOW_FAT) & isFoodType(FOOD_LOW_SALT) & isFoodType(FOOD_LOW_SUGAR);

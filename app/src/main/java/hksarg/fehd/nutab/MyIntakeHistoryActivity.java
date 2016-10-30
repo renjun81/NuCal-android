@@ -33,6 +33,7 @@ import hksarg.fehd.nutab.model.User;
 
 public class MyIntakeHistoryActivity extends AppCompatActivity {
 
+    User    m_user;
     ListView  m_listView;
 
     @Override
@@ -63,15 +64,15 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
 
         ImageView   ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
         TextView    tvUserName = (TextView) findViewById(R.id.tvUserName);
-        User user = User.getDefaultUser();
-        if ( user == null ) {
+        m_user = User.getDefaultUser();
+        if ( m_user == null ) {
             finish();
             return;
         }
-        tvUserName.setText(user.name);
-        Bitmap bmp = user.getAvatar();
+        tvUserName.setText(m_user.name);
+        Bitmap bmp = m_user.getAvatar();
         if ( bmp != null )
-            ivAvatar.setImageBitmap(user.getAvatar());
+            ivAvatar.setImageBitmap(m_user.getAvatar());
 
         m_listView = (ListView) findViewById(R.id.listView);
         m_listView.setAdapter(new ListViewAdapter(this));
@@ -94,7 +95,7 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
 
         public ListViewAdapter(Context mContext) {
             this.mContext = mContext;
-            this.m_data = NuHist.getAll();
+            notifyDataSetChanged();
         }
 
         @Override
@@ -191,7 +192,7 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
 
         @Override
         public void notifyDataSetChanged() {
-            m_data = NuHist.getAll();
+            m_data = NuHist.getAllByUser(m_user.getId());
             super.notifyDataSetChanged();
         }
     }

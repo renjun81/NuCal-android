@@ -50,18 +50,53 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base4pt"
-        android:indeterminate="false"
-        android:maxHeight="10dip"
-        android:minHeight="10dip"
-        android:progress="19"
-        android:max="150"
-        android:progressDrawable="@drawable/custom_progress_bar"
-        />
+        >
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nut_progress_height"
+            android:indeterminate="false"
+            android:progress="100"
+            android:secondaryProgress="120"
+            android:max="150"
+            android:progressDrawable="@drawable/custom_progress_bar"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll100Mark"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/nut_progress_height"
+            android:weightSum="3"
+            >
+            <View
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+                <View
+                    android:layout_width="@dimen/nut_100_mark_width"
+                    android:layout_height="match_parent"
+                    android:background="#DB0008" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/base4pt"
+                    android:includeFontPadding="false"
+                    android:text="100%"
+                    android:textColor="#DB0008"
+                    android:textSize="@dimen/foodlist_header_text_size"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

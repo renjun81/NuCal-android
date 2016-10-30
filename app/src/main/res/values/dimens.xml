@@ -46,4 +46,8 @@
 	<dimen name="profile_activity_row_height">64dp</dimen>
 	<dimen name="profile_BMI_row_height">40dp</dimen>
 
+	<dimen name="nut_progress_height">10dp</dimen>
+	<dimen name="nut_progress_corner">5dp</dimen>
+	<dimen name="nut_100_mark_width">2dp</dimen>
+
 </resources>

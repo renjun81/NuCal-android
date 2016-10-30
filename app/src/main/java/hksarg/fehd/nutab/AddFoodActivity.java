@@ -3,13 +3,15 @@ package hksarg.fehd.nutab;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.activeandroid.query.Select;
 
 import hksarg.fehd.nutab.model.Food;
 
@@ -31,7 +33,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
     EditText    edtCholesterol;
 
     Spinner     carboSpinner;
-    EditText    edtCarboTotal, edtCarboDietary, edtCarboSugar;
+    EditText    edtCarbohydrate, edtDietaryFibre, edtSugar;
 
     EditText    edtSodium;
 
@@ -74,9 +76,9 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtCholesterol = (EditText) findViewById(R.id.edtCholestrol);
 
         carboSpinner= (Spinner) findViewById(R.id.carbo_spinner);
-        edtCarboTotal = (EditText) findViewById(R.id.edtCarboTotal);
-        edtCarboDietary = (EditText) findViewById(R.id.edtCarboDietary);
-        edtCarboSugar = (EditText) findViewById(R.id.edtCarboSugar);
+        edtCarbohydrate = (EditText) findViewById(R.id.edtCarbohydrate);
+        edtDietaryFibre = (EditText) findViewById(R.id.edtDietaryFibre);
+        edtSugar = (EditText) findViewById(R.id.edtSugar);
 
         edtSodium = (EditText) findViewById(R.id.edtSodium);
 
@@ -89,9 +91,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         optUnitMl.setOnClickListener(this);
         optUnitKCal.setOnClickListener(this);
         optUnitKJ.setOnClickListener(this);
-
-//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,arr);
-//        carb_spinner.setAdapter(adapter);
 
         ArrayAdapter<String> adptSpnCategory = new ArrayAdapter<String>(this,R.layout.item_simple_spinner, getResources().getStringArray(R.array.array_carbohydrates));
         adptSpnCategory.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
@@ -136,30 +135,71 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtTransFat.setText(format(m_food.transFat));
         edtCholesterol.setText(format(m_food.cholesterol));
         carboSpinner.setSelection(m_food.carbohydrateType);
-        edtCarboTotal.setText(format(m_food.carboDietary + m_food.carboSugar));
-        edtCarboDietary.setText(format(m_food.carboDietary));
-        edtCarboSugar.setText(format(m_food.carboSugar));
+        edtCarbohydrate.setText(format(m_food.carbohydrate));
+        edtDietaryFibre.setText(format(m_food.dietaryFibre));
+        edtSugar.setText(format(m_food.sugar));
         edtSodium.setText(format(m_food.sodium));
     }
 
     private void saveFood() {
         m_food.name = edtName.getText().toString();
+        if (TextUtils.isEmpty(m_food.name) ) {
+            AppConfig.showMessageDialog(this, R.string.menu2a_d10);
+            return;
+        }
+        if ( m_food.getId() == null ) {
+            Food food = new Select().from(Food.class).where("name='" + m_food.name + "'").executeSingle();
+            if ( food != null ) {
+                AppConfig.showMessageDialog(this, R.string.menu2a_d11);
+                return;
+            }
+        }
+
         if ( m_food.packageSize == 0 ) {
             m_food.packageSize = parseInt(edtPackageSize.getText().toString());
+            if ( m_food.packageSize == 0 ) {
+                AppConfig.showMessageDialog(this, R.string.menu2a_d12);
+                return;
+            }
         }
         m_food.energySize = parseInt(edtEnergy.getText().toString());
         m_food.protein = parseFloat(edtProtein.getText().toString());
 
-        float totalFat = parseFloat(edtTotalFat.getText().toString());
+        m_food.totalFat = parseFloat(edtTotalFat.getText().toString());
         m_food.saturatedFat = parseFloat(edtSaturatedFat.getText().toString());
         m_food.transFat = parseFloat(edtTransFat.getText().toString());
+
+        float totalFat = m_food.totalFat > 0 ? m_food.totalFat : m_food.saturatedFat + m_food.transFat;
+        if ( m_food.totalFat > 0 && totalFat < m_food.saturatedFat + m_food.transFat ) {
+            AppConfig.showMessageDialog(this, R.string.menu2a_d07);
+            return;
+        }
+
         m_food.cholesterol = parseFloat(edtCholesterol.getText().toString());
 
-        float totalCarbo = parseFloat(edtCarboTotal.getText().toString());
         m_food.carbohydrateType = carboSpinner.getSelectedItemPosition();
-        m_food.carboDietary = parseFloat(edtCarboDietary.getText().toString());
-        m_food.carboSugar = parseFloat(edtCarboSugar.getText().toString());
+        m_food.carbohydrate = parseFloat(edtCarbohydrate.getText().toString());
+        m_food.dietaryFibre = parseFloat(edtDietaryFibre.getText().toString());
+        m_food.sugar = parseFloat(edtSugar.getText().toString());
         m_food.sodium = parseFloat(edtSodium.getText().toString());
+
+        float carbo;
+        if ( m_food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
+            carbo = m_food.carbohydrate - m_food.dietaryFibre;
+        else {
+            carbo = Math.max(m_food.carbohydrate, m_food.dietaryFibre + m_food.sugar);
+        }
+
+        if ( totalFat == 0 && carbo <= 0 && m_food.energySize == 0 && m_food.protein == 0
+               && m_food.protein == 0 && m_food.cholesterol == 0 && m_food.sodium == 0) {
+            AppConfig.showMessageDialog(this, R.string.menu2a_d14);
+            return;
+        }
+
+        if ( m_food.protein + totalFat + m_food.cholesterol/1000.f + carbo + m_food.sodium/1000.f > m_food.packageSize ) {
+            AppConfig.showMessageDialog(this, R.string.menu2a_d13);
+            return;
+        }
 
         if ( m_food.save() > 0 ) {
             final Dialog dialog = new Dialog(AddFoodActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
@@ -201,13 +241,23 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.optUnitKCal:
-                m_food.energyUnit = Food.ENERGY_UNIT_KCAL;
                 setTwoOption(optUnitKCal, optUnitKJ, true);
+                if ( m_food.energyUnit == Food.ENERGY_UNIT_KJ ) {
+                    m_food.energyUnit = Food.ENERGY_UNIT_KCAL;
+                    int energy = parseInt(edtEnergy.getText().toString());
+                    energy = (int)(energy / 4.184);
+                    edtEnergy.setText("" + energy);
+                }
                 break;
 
             case R.id.optUnitKJ:
-                m_food.energyUnit = Food.ENERGY_UNIT_KJ;
                 setTwoOption(optUnitKCal, optUnitKJ, false);
+                if ( m_food.energyUnit == Food.ENERGY_UNIT_KCAL ) {
+                    m_food.energyUnit = Food.ENERGY_UNIT_KJ;
+                    int energy = parseInt(edtEnergy.getText().toString());
+                    energy = (int)(energy * 4.184);
+                    edtEnergy.setText("" + energy);
+                }
                 break;
 
             case R.id.btnSave:
