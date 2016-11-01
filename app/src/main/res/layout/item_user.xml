@@ -47,9 +47,10 @@
             android:layout_width="@dimen/user_list_icon_size"
             android:layout_height="@dimen/user_list_icon_size"
             android:layout_marginLeft="@dimen/base8pt"
-            android:padding="@dimen/base3pt"
             android:background="@drawable/userpic_bg"
             android:src="@drawable/userpic_default"
+            android:padding="@dimen/base3pt"
+            android:scaleType="fitXY"
             />
 
         <TextView

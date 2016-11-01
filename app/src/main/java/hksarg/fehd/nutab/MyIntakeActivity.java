@@ -59,7 +59,7 @@ public class MyIntakeActivity extends AppCompatActivity {
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                AppConfig.gotoHome(MyIntakeActivity.this);
             }
         });
 

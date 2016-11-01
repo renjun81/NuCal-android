@@ -1,6 +1,5 @@
 package hksarg.fehd.nutab;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -11,11 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -23,9 +20,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.activeandroid.query.Select;
-import com.activeandroid.query.Update;
-
-import org.parceler.Parcels;
 
 import java.io.IOException;
 
@@ -108,10 +102,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onClick(View view) {
                 if ( saveUser() ) {
-                    Intent intent = new Intent(UserProfileActivity.this, MainActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                    finish();
+                    AppConfig.gotoHome(UserProfileActivity.this);
                 }
             }
         });
@@ -565,8 +556,12 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             Uri uri = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                ivAvatar.setImageBitmap(bitmap);
-                m_user.setAvatar(bitmap);
+                float ratio = (float)bitmap.getWidth() / bitmap.getHeight();
+                Log.e("###", "bitmap size = " + bitmap.getWidth() + " x " + bitmap.getHeight());
+                int avatarSize = getResources().getDimensionPixelSize(R.dimen.profile_photo_size);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, (int)(avatarSize * ratio), avatarSize, false);
+                ivAvatar.setImageBitmap(scaledBitmap);
+                m_user.setAvatar(scaledBitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }

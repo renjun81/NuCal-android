@@ -18,9 +18,10 @@
             android:id="@+id/ivAvatar"
             android:layout_width="@dimen/user_list_icon_size"
             android:layout_height="@dimen/user_list_icon_size"
+            android:background="@drawable/userpic_bg"
             android:src="@drawable/userpic_default"
             android:padding="@dimen/base3pt"
-            android:background="@drawable/userpic_bg"
+            android:scaleType="fitXY"
             />
         <TextView
             android:id="@+id/tvUserName"
@@ -56,7 +57,7 @@
             android:layout_marginLeft="@dimen/base_margin"
             android:background="@drawable/choice_sky"
             android:paddingLeft="@dimen/base_margin"
-            android:dropDownVerticalOffset="45dp" />
+            android:dropDownVerticalOffset="@dimen/form_row_height" />
 
     </LinearLayout>
 

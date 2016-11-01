@@ -11,9 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.Transformation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -26,8 +23,6 @@ import com.activeandroid.query.Select;
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
-
-import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -62,10 +57,7 @@ public class UserListActivity extends AppCompatActivity {
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserListActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
+                AppConfig.gotoHome(UserListActivity.this);
             }
         });
 

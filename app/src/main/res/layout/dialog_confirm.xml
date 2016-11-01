@@ -38,6 +38,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/base_margin"
             android:background="@drawable/popup_btn"
             android:textSize="@dimen/dialog_button_text_size"
             android:textColor="#000000"

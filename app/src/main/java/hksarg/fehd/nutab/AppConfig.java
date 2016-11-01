@@ -1,11 +1,12 @@
 package hksarg.fehd.nutab;
 
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
 public class AppConfig {
@@ -30,4 +31,10 @@ public class AppConfig {
         dialog.show();
     }
 
+    public static void gotoHome(Activity activity) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 }

@@ -427,7 +427,7 @@
                         android:layout_height="match_parent"
                         android:paddingLeft="10dp"
                         android:background="@drawable/choice_gray"
-                        android:dropDownVerticalOffset="26dp"/>
+                        android:dropDownVerticalOffset="@dimen/form_row_height"/>
 
                     <EditText
                         android:id="@+id/edtCarbohydrate"

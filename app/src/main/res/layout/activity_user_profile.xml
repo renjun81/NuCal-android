@@ -192,9 +192,10 @@
                     android:id="@+id/ivAvatar"
                     android:layout_width="@dimen/profile_photo_size"
                     android:layout_height="@dimen/profile_photo_size"
+                    android:background="@drawable/userpic_bg"
                     android:padding="@dimen/profile_photo_padding"
                     android:src="@drawable/userpic_default"
-                    android:background="@drawable/userpic_bg"
+                    android:scaleType="fitXY"
                     />
             </LinearLayout>
         </LinearLayout>

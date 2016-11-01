@@ -162,4 +162,11 @@
     <string name="t23_msg_write_ok">Data Sent OK - exit now</string>
     <string name="menu3a_text5c_g_ml">克/毫升</string>
     <string name="menu3a_text5d">100克/毫升</string>
+
+    <string name="msg_select_foods_to_send">Please select foods to send.</string>
+    <string name="err_bluetooth_not_supported_device">Your device does not support bluetooth function.</string>
+    <string name="msg_select_bluetooth_mode">Please select bluetooth device mode</string>
+    <string name="err_connnect_failed">连接失败！</string>
+    <string name="master_device">Master</string>
+    <string name="slave_device">Slave</string>
 </resources>

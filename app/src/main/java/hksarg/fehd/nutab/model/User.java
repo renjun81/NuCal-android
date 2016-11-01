@@ -10,12 +10,9 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.activeandroid.query.Update;
 
-import org.parceler.Parcel;
-
 import java.nio.ByteBuffer;
 import java.util.List;
 
-@Parcel(analyze = User.class)
 @Table(name = "tbl_user")
 public class User extends Model{
 

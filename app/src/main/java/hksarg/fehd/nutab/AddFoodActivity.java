@@ -50,7 +50,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                AppConfig.gotoHome(AddFoodActivity.this);
             }
         });
 
