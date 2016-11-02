@@ -44,8 +44,8 @@ dependencies {
 
     //compile 'org.parceler:parceler-api:1.1.6'
     //apt 'org.parceler:parceler:1.1.6'
-    compile 'com.minimize.library:seekbar-compat:0.2.5'
-    compile 'com.weiwangcn.betterspinner:library:1.1.0'
+    //compile 'com.minimize.library:seekbar-compat:0.2.5'
+    //compile 'com.weiwangcn.betterspinner:library:1.1.0'
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     compile 'com.google.code.gson:gson:2.8.0'
 }

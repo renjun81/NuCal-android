@@ -21,13 +21,24 @@
     >
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_bar_height"
+        android:gravity="center"
+        android:text="@string/select_device"
+        android:textColor="#fff"
+        android:textSize="@dimen/dialog_message_text_size"
+        android:textStyle="bold"
+        android:id="@+id/textView6" />
+
+    <TextView
         android:id="@+id/title_paired_devices"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#666"
-        android:paddingLeft="5dp"
+        android:paddingLeft="@dimen/base4pt"
         android:text="@string/title_paired_devices"
         android:textColor="#fff"
+        android:textSize="@dimen/form_toggle_text_size"
         android:visibility="gone"
         />
 
@@ -44,9 +55,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#666"
-        android:paddingLeft="5dp"
+        android:paddingLeft="@dimen/base4pt"
         android:text="@string/title_other_devices"
         android:textColor="#fff"
+        android:textSize="@dimen/form_toggle_text_size"
         android:visibility="gone"
         />
 
@@ -63,5 +75,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_scan"
+        android:textSize="@dimen/form_label_text_size"
         />
 </LinearLayout>

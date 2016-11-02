@@ -26,9 +26,10 @@ public interface Constants {
     public static final int MESSAGE_READ = 2;
     public static final int MESSAGE_WRITE = 3;
 
-    public static final int MESSAGE_CONNECTED = 4;
-    public static final int MESSAGE_CONNECT_FAILED = 5;
-    public static final int MESSAGE_CONNECT_CLOSED = 6;
+    public static final int MESSAGE_CONNECTED_TO = 4;
+    public static final int MESSAGE_CONNECTED_FROM = 5;
+    public static final int MESSAGE_CONNECT_FAILED = 6;
+    public static final int MESSAGE_CONNECT_CLOSED = 7;
 
     // Key names received from the BluetoothChatService Handler
     public static final String DEVICE_NAME = "device_name";

@@ -90,8 +90,8 @@ public class DeviceListActivity extends Activity {
         // Initialize array adapters. One for already paired devices and
         // one for newly discovered devices
         ArrayAdapter<String> pairedDevicesArrayAdapter =
-                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+                new ArrayAdapter<String>(this, R.layout.item_device_name);
+        mNewDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.item_device_name);
 
         // Find and set up the ListView for paired devices
         ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
@@ -121,7 +121,8 @@ public class DeviceListActivity extends Activity {
         if (pairedDevices.size() > 0) {
             findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);
             for (BluetoothDevice device : pairedDevices) {
-                pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                //pairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                pairedDevicesArrayAdapter.add(device.getName());
             }
         } else {
             String noDevices = getResources().getText(R.string.none_paired).toString();
@@ -205,7 +206,8 @@ public class DeviceListActivity extends Activity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 // If it's already paired, skip it, because it's been listed already
                 if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    //mNewDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+                    mNewDevicesArrayAdapter.add(device.getName());
                 }
                 // When discovery is finished, change the Activity title
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {

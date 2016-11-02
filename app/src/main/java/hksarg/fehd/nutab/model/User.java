@@ -29,7 +29,7 @@ public class User extends Model{
     public static final int ACTIVITY_LEVEL_MEDIUM = 1;
     public static final int ACTIVITY_LEVEL_HIGH = 2;
 
-    @Column(name="name")
+    @Column(name="name", unique = true, onUniqueConflict = Column.ConflictAction.FAIL)
     public String name;
 
     @Column(name="gender")

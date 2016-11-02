@@ -7,7 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
@@ -173,6 +175,22 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                         tvAge.setText(i + "");
                     else
                         seekBar.setProgress(7);
+
+                    if ( i >= 80 ) {
+                        activity_low.performClick();
+                        activity_medium.setEnabled(false);
+                        activity_high.setEnabled(false);
+                    }
+                    else if ( i >= 60 ) {
+                        activity_medium.setEnabled(true);
+                        activity_high.setEnabled(false);
+                        if ( m_user.activityLevel == User.ACTIVITY_LEVEL_HIGH )
+                            activity_medium.performClick();
+                    }
+                    else {
+                        activity_medium.setEnabled(true);
+                        activity_high.setEnabled(true);
+                    }
                 }
             }
 
@@ -237,21 +255,81 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             updateBMI();
         }
+
+        edtName.addTextChangedListener(new CustomTextWatcher(edtName));
+        edtWeight.addTextChangedListener(new CustomTextWatcher(edtWeight));
+        edtHeightMeter.addTextChangedListener(new CustomTextWatcher(edtHeightMeter));
+
+        TextWatcher watcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if ( edtHeightFeet.getText().length() == 0 && edtHeightInch.getText().length() == 0) {
+                    edtHeightFeet.setBackgroundResource(R.drawable.txtfield_error);
+                    edtHeightInch.setBackgroundResource(R.drawable.txtfield_error);
+                }
+                else {
+                    edtHeightFeet.setBackgroundResource(R.drawable.txtfield_normal);
+                    edtHeightInch.setBackgroundResource(R.drawable.txtfield_normal);
+                }
+            }
+        };
+        edtHeightFeet.addTextChangedListener(watcher);
+        edtHeightInch.addTextChangedListener(watcher);
+    }
+
+
+    private void validateEmptyValue() {
+        m_user.name = edtName.getText().toString();
+        float weight = parseFloat(edtWeight.getText().toString());
+        if ( m_user.weightUnit == User.WEIGHT_UNIT_KG )
+            m_user.weight = weight;
+        else
+            m_user.weight = weight * 2.20462f;
+        if ( m_user.heightUnit == User.HEIGHT_UNIT_METER )
+            m_user.height = parseFloat(edtHeightMeter.getText().toString());
+        else {
+            float feet = 0, inch = 0;
+            if (edtHeightFeet.getText().toString().length() > 0)
+                feet = parseFloat(edtHeightFeet.getText().toString());
+            if (edtHeightInch.getText().toString().length() > 0)
+                inch = parseFloat(edtHeightInch.getText().toString());
+            m_user.height = (feet * 12 + inch) * 0.0254f;
+        }
+
+        if ( TextUtils.isEmpty(m_user.name) )
+            edtName.setBackgroundResource(R.drawable.txtfield_error);
+        else
+            edtName.setBackgroundResource(R.drawable.txtfield_normal);
+
+        if ( weight == 0 )
+            edtWeight.setBackgroundResource(R.drawable.txtfield_error);
+        else
+            edtWeight.setBackgroundResource(R.drawable.txtfield_normal);
+
+        if ( m_user.height == 0 ) {
+            if ( m_user.heightUnit == User.HEIGHT_UNIT_METER )
+                edtHeightMeter.setBackgroundResource(R.drawable.txtfield_error);
+            else {
+                edtHeightFeet.setBackgroundResource(R.drawable.txtfield_error);
+                edtHeightInch.setBackgroundResource(R.drawable.txtfield_error);
+            }
+        }
     }
 
     private boolean saveUser() {
+
+        validateEmptyValue();
+
         m_user.name = edtName.getText().toString();
         if ( TextUtils.isEmpty(m_user.name) ) {
             AppConfig.showMessageDialog(this, R.string.menu4b_d02);
             return false;
-        }
-
-        if ( m_user.getId() == null ) {
-            User user = new Select().from(User.class).where("name='" + m_user.name + "'").executeSingle();
-            if (user != null) {
-                AppConfig.showMessageDialog(this, R.string.menu4b_d01);
-                return false;
-            }
         }
 
         float weight = parseFloat(edtWeight.getText().toString());
@@ -259,10 +337,21 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             AppConfig.showMessageDialog(this, R.string.menu4b_d03);
             return false;
         }
+
+        if ( m_user.getId() == null ) {
+            User user = new Select().from(User.class).where("name='" + m_user.name + "'").executeSingle();
+            if (user != null) {
+                edtName.setBackgroundResource(R.drawable.txtfield_error);
+                AppConfig.showMessageDialog(this, R.string.menu4b_d01);
+                return false;
+            }
+        }
+
         if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
             m_user.weight = weight;
             if ( weight >= 200 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d10);
+                edtWeight.setBackgroundResource(R.drawable.txtfield_error);
                 return false;
             }
         }
@@ -270,13 +359,16 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             m_user.weight = weight * 2.20462f;
             if ( weight > 400 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d09);
+                edtWeight.setBackgroundResource(R.drawable.txtfield_error);
                 return false;
             }
         }
+
         if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
             m_user.height = parseFloat(edtHeightMeter.getText().toString());
             if ( m_user.height >= 3 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d11);
+                edtHeightMeter.setBackgroundResource(R.drawable.txtfield_error);
                 return false;
             }
         }
@@ -289,13 +381,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             m_user.height = (feet * 12 + inch) * 0.0254f;
             if ( feet >= 10 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d12);
+                edtHeightFeet.setBackgroundResource(R.drawable.txtfield_error);
+                edtHeightInch.setBackgroundResource(R.drawable.txtfield_error);
                 return false;
             }
         }
+
         if ( m_user.height == 0 ) {
             AppConfig.showMessageDialog(this, R.string.menu4b_d04);
             return false;
         }
+
         m_user.age = seekbar.getProgress();
         m_user.energyRequired = parseInt(edtEnergyRequired.getText().toString());
 
@@ -471,9 +567,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }
         else {
             // -19.5 == 18.5 BMI
-            //  19.5 == 23   BMI
+            //  13.5 == 23   BMI
             //  53 (max) 14.64 ~ 26.86
-            float unit = 19.5f * 2 / ( 23 - 18.5f );
+            float unit = (19.5f + 13.5f) / ( 23 - 18.5f );
             float bmi = weight / (height * height);
             float newRotation = unit * (bmi - 20.25f);
             newRotation = newRotation > 53 ? 53 : newRotation;
@@ -485,6 +581,13 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             ivBMIPointer.startAnimation(rotAnim);
 
             tvBMI.setText(String.format("BMI: %.1f", bmi));
+
+            if ( bmi < 18.5 )
+                ivBMIPointer.setImageResource(R.drawable.pointer_underweight);
+            else if ( (m_user.isAsian && bmi <= 23)||(!m_user.isAsian && bmi <= 25) )
+                ivBMIPointer.setImageResource(R.drawable.pointer_normal);
+            else
+                ivBMIPointer.setImageResource(R.drawable.pointer_overweight);
 
             m_user.weight = weight;
             m_user.age = seekbar.getProgress();

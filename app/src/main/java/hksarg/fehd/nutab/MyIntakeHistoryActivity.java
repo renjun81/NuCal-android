@@ -165,7 +165,7 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
         public void fillValues(int position, View convertView) {
             TextView tvRecordedTime = (TextView) convertView.findViewById(R.id.tvRecordedTime);
             NuHist itemData = getItem(position);
-            tvRecordedTime.setText(itemData.getRecordTimeString());
+            tvRecordedTime.setText(itemData.getRecordTimeString(tvRecordedTime.getContext()));
             convertView.setTag(itemData);
         }
 

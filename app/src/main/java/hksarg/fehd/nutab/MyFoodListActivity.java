@@ -28,9 +28,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Type;
+import java.util.Iterator;
 import java.util.List;
 
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 
 import hksarg.fehd.nutab.bluetoothclassic.Constants;
 import hksarg.fehd.nutab.bluetoothclassic.DeviceListActivity;
@@ -43,9 +48,9 @@ import hksarg.fehd.nutab.bluetoothclassic.BluetoothChatService;
 
 public class MyFoodListActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
-    private static final int REQUEST_ENABLE_BLUETOOTH = 3;
+    private static final int REQUEST_CONNECT_DEVICE = 1;
+    private static final int REQUEST_ENABLE_BLUETOOTH = 2;
+    private static final int REQUEST_DISCOVERABLE = 3;
     /**
      * Local Bluetooth adapter
      */
@@ -64,6 +69,8 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
     RecyclerView        m_recyclerView;
     RecyclerViewAdapter m_adapter;
 
+    boolean isBluetoothMaster;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +85,6 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         btnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
@@ -114,7 +120,7 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         m_recyclerView.setItemAnimator(new FadeInLeftAnimator());
 
         m_adapter = new RecyclerViewAdapter();
-        m_adapter.setData(Food.getFoodList(Food.FOOD_ALL));
+        m_adapter.setFoodType(Food.FOOD_ALL);
         m_recyclerView.setAdapter(m_adapter);
 
 //        ArrayAdapter<String> adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,spinner_item);
@@ -130,26 +136,26 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                     case 1:
                         image_spinner.setVisibility(View.VISIBLE);
                         image_spinner.setImageResource(R.drawable.icon_lowfat);
-                        m_adapter.setData(Food.getFoodList(Food.FOOD_LOW_FAT));
+                        m_adapter.setFoodType(Food.FOOD_LOW_FAT);
                         break;
                     case 2:
                         image_spinner.setVisibility(View.VISIBLE);
                         image_spinner.setImageResource(R.drawable.icon_lowsalt);
-                        m_adapter.setData(Food.getFoodList(Food.FOOD_LOW_SALT));
+                        m_adapter.setFoodType(Food.FOOD_LOW_SALT);
                         break;
                     case 3:
                         image_spinner.setVisibility(View.VISIBLE);
                         image_spinner.setImageResource(R.drawable.icon_lowsugar);
-                        m_adapter.setData(Food.getFoodList(Food.FOOD_LOW_SUGAR));
+                        m_adapter.setFoodType(Food.FOOD_LOW_SUGAR);
                         break;
                     case 4:
                         image_spinner.setVisibility(View.VISIBLE);
                         image_spinner.setImageResource(R.drawable.icon_3low);
-                        m_adapter.setData(Food.getFoodList(Food.FOOD_THREE_LOW));
+                        m_adapter.setFoodType(Food.FOOD_THREE_LOW);
                         break;
                     default:
                         image_spinner.setVisibility(View.INVISIBLE);
-                        m_adapter.setData(Food.getFoodList(Food.FOOD_ALL));
+                        m_adapter.setFoodType(Food.FOOD_ALL);
                         break;
                 }
             }
@@ -159,7 +165,6 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
 
             }
         });
-
     }
 
     @Override
@@ -186,35 +191,31 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         if ( mBluetoothAdapter == null ) {
             // Get local Bluetooth adapter
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
             // If the adapter is null, then Bluetooth is not supported
             if (mBluetoothAdapter == null) {
                 AppConfig.showMessageDialog(this, R.string.err_bluetooth_not_supported_device);
                 return;
             }
 
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
-                // Otherwise, setup the chat session
-            } else {
-                selectBluetoothMode();
-            }
+            mChatService = new BluetoothChatService(mContext, mHandler, true);
+            mChatService.listen();
+        }
+
+        if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableIntent, REQUEST_ENABLE_BLUETOOTH);
+            // Otherwise, setup the chat session
+        } else {
+            selectBluetoothMode();
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_CONNECT_DEVICE_SECURE:
+            case REQUEST_CONNECT_DEVICE:
                 // When DeviceListActivity returns with a device to connect
                 if (resultCode == Activity.RESULT_OK) {
-                    connectDevice(data, true);
-                }
-                break;
-            case REQUEST_CONNECT_DEVICE_INSECURE:
-                // When DeviceListActivity returns with a device to connect
-                if (resultCode == Activity.RESULT_OK) {
-                    connectDevice(data, false);
+                    connectDevice(data);
                 }
                 break;
             case REQUEST_ENABLE_BLUETOOTH:
@@ -222,34 +223,47 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                 if (resultCode == Activity.RESULT_OK) {
                     // Bluetooth is now enabled, so set up a chat session
                     selectBluetoothMode();
-                } else {
+                }
+                else {
                     // User did not enable Bluetooth or an error occurred
                     AppConfig.showMessageDialog(this, R.string.bt_not_enabled_leaving);
                 }
+                break;
+            case REQUEST_DISCOVERABLE:
+                if ( resultCode == Activity.RESULT_OK ) {
+                    Log.e("###", "enabled discoverable");
+                }
+                else {
+
+                }
+                break;
         }
     }
 
-    private void connectDevice(Intent data, boolean secure) {
+    private void connectDevice(Intent data) {
         // Get the device MAC address
         String address = data.getExtras().getString(DeviceListActivity.EXTRA_DEVICE_ADDRESS);
         // Get the BluetoothDevice object
         BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         // Attempt to connect to the device
-        mChatService.connect(device, secure);
+        mChatService.connect(device);
     }
 
-    private void sendBluetoothMessage(String message) {
+    private void sendData() {
         // Check that we're actually connected before trying anything
+        Log.e("###", "service state = " + mChatService.getState());
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(mContext, R.string.not_connected, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Check that there's actually something to send
-        if (message.length() > 0) {
-            // Get the message bytes and tell the BluetoothChatService to write
-            byte[] send = message.getBytes();
-            mChatService.write(send);
+        List<Food> foods = Food.getSelectedFoods();
+        if ( foods != null && foods.size() > 0  ) {
+            Type listType = new TypeToken<List<Food>>() {}.getType();
+            GsonBuilder builder = new GsonBuilder();
+            builder.excludeFieldsWithoutExposeAnnotation();
+            String json = builder.create().toJson(foods, listType);
+            mChatService.write(json.getBytes());
         }
     }
 
@@ -261,52 +275,74 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                 case Constants.MESSAGE_STATE_CHANGE:
                     switch (msg.arg1) {
                         case BluetoothChatService.STATE_CONNECTED:
-                            //setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+                            Log.e("###", "STATE CONNECTED");
                             break;
                         case BluetoothChatService.STATE_CONNECTING:
-                            //setStatus(R.string.title_connecting);
+                            Log.e("###", "STATE CONNECTING");
                             break;
                         case BluetoothChatService.STATE_LISTEN:
+                            Log.e("###", "STATE LISTEN");
+                            break;
                         case BluetoothChatService.STATE_NONE:
-                            //setStatus(R.string.title_not_connected);
+                            Log.e("###", "STATE NONE");
                             break;
                     }
                     break;
                 case Constants.MESSAGE_WRITE:
-                    byte[] writeBuf = (byte[]) msg.obj;
+                    byte[] bytes = (byte[]) msg.obj;
                     // construct a string from the buffer
-                    String writeMessage = new String(writeBuf);
-
-                    //mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    String writeMessage = new String(bytes);
+                    Log.e("########### =>", writeMessage);
+                    Toast.makeText(mContext, R.string.t23_msg_write_ok, Toast.LENGTH_SHORT).show();
                     break;
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
                     String readMessage = new String(readBuf, 0, msg.arg1);
-                    Log.e("###########", readMessage);
+                    Log.e("########### <=", readMessage);
+
+                    Type listType = new TypeToken<List<Food>>() {}.getType();
+                    GsonBuilder builder = new GsonBuilder();
+                    builder.excludeFieldsWithoutExposeAnnotation();
+                    List<Food> foods = builder.create().fromJson(readMessage, listType);
+                    int nSuccessed = 0, nFailed = 0;
+                    Iterator<Food> itr = foods.iterator();
+                    while ( itr.hasNext() ) {
+                        Long id = itr.next().save();
+                        if ( id != null || id.longValue() > 0 )
+                            nSuccessed++;
+                        else
+                            nFailed++;
+                    }
+                    String szMsg = getString(R.string.t23_text2a) + nSuccessed;
+                    AppConfig.showMessageDialog(mContext, szMsg);
+
+                    if ( nSuccessed > 0 )
+                        m_adapter.refresh();
+
                     break;
-                case Constants.MESSAGE_CONNECTED:
+                case Constants.MESSAGE_CONNECTED_FROM:
+                case Constants.MESSAGE_CONNECTED_TO:
                     // save the connected device's name
                     String deviceName = msg.getData().getString(Constants.DEVICE_NAME);
-                    sendBluetoothMessage("###############");
+                    Log.e("###", "CONNECTED DEVICE = " + deviceName);
+                    Toast.makeText(mContext, "Connected to " + deviceName, Toast.LENGTH_SHORT).show();
+
+                    sendData();
                     break;
                 case Constants.MESSAGE_CONNECT_FAILED:
+                    Log.e("###", "CONNECTION FAILED");
+                    AppConfig.showMessageDialog(mContext, R.string.err_connnect_failed);
+                    break;
+
                 case Constants.MESSAGE_CONNECT_CLOSED:
-//                    if (null != activity) {
-//                        Toast.makeText(activity, msg.getData().getString(Constants.TOAST),
-//                                Toast.LENGTH_SHORT).show();
-//                    }
+                    Log.e("###", "CONNECTION CLOSED");
                     break;
             }
         }
     };
 
     public void selectBluetoothMode() {
-
-        //if (mChatService == null)
-        mChatService = new BluetoothChatService(mContext, mHandler);
-        mChatService.start();
-
         final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_confirm);
@@ -314,15 +350,16 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         Button btnYes = (Button) dialog.findViewById(R.id.btnYes);
         Button btnNo = (Button) dialog.findViewById(R.id.btnNo);
         tvMessage.setText(R.string.msg_select_bluetooth_mode);
-        btnYes.setText(R.string.master_device);
-        btnNo.setText(R.string.slave_device);
+        btnYes.setText(R.string.mode_send);
+        btnNo.setText(R.string.mode_recv);
         btnYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.cancel();
 
+                isBluetoothMaster = true;
                 Intent serverIntent = new Intent(mContext, DeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_INSECURE);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
             }
         });
         btnNo.setOnClickListener(new View.OnClickListener() {
@@ -330,13 +367,18 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
             public void onClick(View view) {
                 dialog.cancel();
 
+                isBluetoothMaster = false;
+                List<Food> foods = Food.getSelectedFoods();
+                if ( foods == null || foods.size() == 0 ) {
+                    AppConfig.showMessageDialog(mContext, R.string.msg_select_foods_to_send);
+                }
+                else
                 if (mBluetoothAdapter.getScanMode() !=
                         BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
                     Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
                     discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-                    startActivity(discoverableIntent);
+                    startActivityForResult(discoverableIntent, REQUEST_DISCOVERABLE);
                 }
-
             }
         });
         dialog.show();
@@ -361,7 +403,7 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
             // Only if the state is STATE_NONE, do we know that we haven't started already
             if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
                 // Start the Bluetooth chat services
-                mChatService.start();
+                mChatService.listen();
             }
         }
     }
@@ -424,10 +466,16 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
             }
         }
 
+        private int m_foodType;
         private List<Food> m_data;
-        public void setData(List<Food> foodList) {
-            m_data = foodList;
-            notifyDataSetChanged();
+        public void setFoodType(int nType) {
+            m_foodType = nType;
+            refresh();
+        }
+
+        public void refresh() {
+            m_data = Food.getFoodList(m_foodType);
+            super.notifyDataSetChanged();
         }
 
         @Override

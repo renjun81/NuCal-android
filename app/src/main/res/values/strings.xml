@@ -158,15 +158,13 @@
     <string name="t23_text4a">Send Data</string>
     <string name="t23_text5a">Receive Data</string>
     <string name="t23_text6a">Exit</string>
-    <string name="t23_msg_read_ok">Data Received OK - exit now</string>
-    <string name="t23_msg_write_ok">Data Sent OK - exit now</string>
-    <string name="menu3a_text5c_g_ml">克/毫升</string>
-    <string name="menu3a_text5d">100克/毫升</string>
+    <string name="t23_msg_read_ok">Data Receive Successed</string>
+    <string name="t23_msg_write_ok">Data Send Successed</string>
 
     <string name="msg_select_foods_to_send">Please select foods to send.</string>
     <string name="err_bluetooth_not_supported_device">Your device does not support bluetooth function.</string>
-    <string name="msg_select_bluetooth_mode">Please select bluetooth device mode</string>
-    <string name="err_connnect_failed">连接失败！</string>
-    <string name="master_device">Master</string>
-    <string name="slave_device">Slave</string>
+    <string name="err_connnect_failed">Connection failed, please enable send mode on other device.</string>
+    <string name="msg_select_bluetooth_mode">Please select transfer mode</string>
+    <string name="mode_send">Send Mode</string>
+    <string name="mode_recv">Recv Mode</string>
 </resources>

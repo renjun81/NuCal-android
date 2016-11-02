@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -128,7 +130,7 @@ public class MyIntakeActivity extends AppCompatActivity {
         }
         else {
             tvTitle.setText(R.string.menu3a_t30_read);
-            tvRecordedTime.setText(m_nuHist.getRecordTimeString());
+            tvRecordedTime.setText(m_nuHist.getRecordTimeString(tvRecordedTime.getContext()));
 
             int nCount = m_nuHist.foodList.size();
             for ( int i = 0; i < nCount; i++) {
@@ -149,15 +151,20 @@ public class MyIntakeActivity extends AppCompatActivity {
 
     private void calculateNutritions() {
 
+        boolean invalidInput = false;
         Iterator<FoodViewHolder> itr = m_foodItemViews.iterator();
         while( itr.hasNext() ) {
             FoodViewHolder holder = itr.next();
-            String strAmount = holder.edtAmount.getText().toString();
-            if (TextUtils.isEmpty(strAmount)) {
-                return;
+            int amount = holder.getAmount();
+            if (amount == 0) {
+                holder.edtAmount.setBackgroundResource(R.drawable.txtfield_error);
+                invalidInput = true;
             }
-            m_nuHist.putFood(holder.foodData.getId().intValue(), Integer.parseInt(strAmount));
+            m_nuHist.putFood(holder.foodData.getId().intValue(), amount);
         }
+
+        if ( invalidInput )
+            return;
 
         btnCalculate.setVisibility(View.GONE);
         btnSave.setVisibility(View.VISIBLE);
@@ -192,7 +199,7 @@ public class MyIntakeActivity extends AppCompatActivity {
             totalSugar = totalSugar + coef * food.sugar;
             totalSodium = totalSodium + coef * food.sodium;
             if ( food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
-                totalCarbohydrate = totalCarbohydrate + coef * (food.carbohydrate - food.dietaryFibre);
+                totalCarbohydrate = totalCarbohydrate + coef * Math.max(0, food.carbohydrate - food.dietaryFibre);
             else
                 totalCarbohydrate = totalCarbohydrate + coef * food.carbohydrate;
         }
@@ -227,7 +234,7 @@ public class MyIntakeActivity extends AppCompatActivity {
         llIndexContainer.addView(holder.container);
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row6_col1,
-                format(totalCarbohydrate) + UNIT_MG, totalCarbohydrate / m_user.cholesterolIntake(), true);
+                format(totalCarbohydrate) + UNIT_MG, totalCarbohydrate / m_user.carbohydrateIntake(), true);
         llIndexContainer.addView(holder.container);
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row7_col1,
@@ -263,6 +270,7 @@ public class MyIntakeActivity extends AppCompatActivity {
             }
             else {
                 edtAmount = (EditText) view.findViewById(R.id.edtAmount);
+                edtAmount.addTextChangedListener(new CustomTextWatcher(edtAmount));
             }
             tvFoodName.setText(foodData.name);
             tvAmountUnit.setText(szUnit);

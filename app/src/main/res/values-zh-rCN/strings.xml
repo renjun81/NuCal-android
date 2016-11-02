@@ -158,15 +158,13 @@
     <string name="t23_text4a">发送数据</string>
     <string name="t23_text5a">接收数据</string>
     <string name="t23_text6a">退出</string>
-    <string name="t23_msg_read_ok">接收数据 OK - 现在退出</string>
-    <string name="t23_msg_write_ok">发送数据 OK - 现在退出</string>
-    <string name="menu3a_text5c_g_ml">克/毫升</string>
-    <string name="menu3a_text5d">100克/毫升</string>
+    <string name="t23_msg_read_ok">接收数据成功</string>
+    <string name="t23_msg_write_ok">发送数据成功</string>
 
     <string name="msg_select_foods_to_send">请选择要传送的食品。</string>
     <string name="err_bluetooth_not_supported_device">您的设备不支持蓝牙功能</string>
-    <string name="msg_select_bluetooth_mode">请选择蓝牙设备模式</string>
     <string name="err_connnect_failed">连接失败，在对方设备里激活传送模式。</string>
-    <string name="master_device">主设备</string>
-    <string name="slave_device">从设备</string>
+    <string name="msg_select_bluetooth_mode">请选择转移模式</string>
+    <string name="mode_send">发送模式</string>
+    <string name="mode_recv">接受模式</string>
 </resources>

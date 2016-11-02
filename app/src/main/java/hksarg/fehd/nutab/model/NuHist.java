@@ -1,5 +1,7 @@
 package hksarg.fehd.nutab.model;
 
+import android.content.Context;
+import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.activeandroid.Model;
@@ -31,10 +33,13 @@ public class NuHist extends Model {
         foodList.put(foodId, amount);
     }
 
-    public String getRecordTimeString(){
+    public String getRecordTimeString(Context context){
         if ( recordTime == null )
             return "";
+        Locale current = context.getResources().getConfiguration().locale;
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy MMM dd hh:mm a", Locale.getDefault());
+        if ( current.equals(Locale.SIMPLIFIED_CHINESE) || current.equals(Locale.TRADITIONAL_CHINESE))
+            fmt = new SimpleDateFormat("yyyy年MMMdd日 hh:mm a", Locale.getDefault());
         return fmt.format(recordTime);
     }
 

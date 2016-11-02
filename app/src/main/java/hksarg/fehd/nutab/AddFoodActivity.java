@@ -3,9 +3,12 @@ package hksarg.fehd.nutab;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -36,6 +39,8 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
     EditText    edtCarbohydrate, edtDietaryFibre, edtSugar;
 
     EditText    edtSodium;
+
+    View        btnSave;
 
     Food m_food;
 
@@ -81,8 +86,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtSugar = (EditText) findViewById(R.id.edtSugar);
 
         edtSodium = (EditText) findViewById(R.id.edtSodium);
-
-        findViewById(R.id.btnSave).setOnClickListener(this);
+        btnSave = findViewById(R.id.btnSave);
 
         opt100g.setOnClickListener(packageOptListener);
         opt100ml.setOnClickListener(packageOptListener);
@@ -91,10 +95,50 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         optUnitMl.setOnClickListener(this);
         optUnitKCal.setOnClickListener(this);
         optUnitKJ.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
+
+        final TextWatcher fibreWatcher = new CustomTextWatcher(edtDietaryFibre){
+            @Override
+            public void afterTextChanged(Editable s) {
+                if ( s.length() > 0 ) {
+                    mEditText.setBackgroundResource(R.drawable.txtfield_normal);
+                    btnSave.setEnabled(true);
+                }
+                else {
+                    mEditText.setBackgroundResource(R.drawable.txtfield_error);
+                    btnSave.setEnabled(false);
+                }
+            }
+        };
 
         ArrayAdapter<String> adptSpnCategory = new ArrayAdapter<String>(this,R.layout.item_simple_spinner, getResources().getStringArray(R.array.array_carbohydrates));
         adptSpnCategory.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         carboSpinner.setAdapter(adptSpnCategory);
+        carboSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    edtDietaryFibre.addTextChangedListener(fibreWatcher);
+                    if ( edtDietaryFibre.getText().length() == 0 ) {
+                        edtDietaryFibre.setBackgroundResource(R.drawable.txtfield_error);
+                        btnSave.setEnabled(false);
+                        AppConfig.showMessageDialog(AddFoodActivity.this, R.string.menu2a_d02);
+                    }
+                    else {
+                        btnSave.setEnabled(true);
+                    }
+                }
+                else {
+                    edtDietaryFibre.removeTextChangedListener(fibreWatcher);
+                    btnSave.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         long foodId = getIntent().getLongExtra("food_id", 0);
         m_food = Food.load(Food.class, foodId);
@@ -108,6 +152,9 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             tvTitle.setText(R.string.menu2a_t20_edit);
             showFoodInfo();
         }
+
+        edtName.addTextChangedListener(new CustomTextWatcher(edtName));
+        edtPackageSize.addTextChangedListener(new CustomTextWatcher(edtPackageSize));
     }
 
     private void showFoodInfo() {
@@ -144,12 +191,14 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
     private void saveFood() {
         m_food.name = edtName.getText().toString();
         if (TextUtils.isEmpty(m_food.name) ) {
+            edtName.setBackgroundResource(R.drawable.txtfield_error);
             AppConfig.showMessageDialog(this, R.string.menu2a_d10);
             return;
         }
         if ( m_food.getId() == null ) {
             Food food = new Select().from(Food.class).where("name='" + m_food.name + "'").executeSingle();
             if ( food != null ) {
+                edtName.setBackgroundResource(R.drawable.txtfield_error);
                 AppConfig.showMessageDialog(this, R.string.menu2a_d11);
                 return;
             }
@@ -158,6 +207,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         if ( m_food.packageSize == 0 ) {
             m_food.packageSize = parseInt(edtPackageSize.getText().toString());
             if ( m_food.packageSize == 0 ) {
+                edtPackageSize.setBackgroundResource(R.drawable.txtfield_error);
                 AppConfig.showMessageDialog(this, R.string.menu2a_d12);
                 return;
             }
@@ -185,7 +235,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
 
         float carbo;
         if ( m_food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
-            carbo = m_food.carbohydrate - m_food.dietaryFibre;
+            carbo = Math.max(0, m_food.carbohydrate - m_food.dietaryFibre);
         else {
             carbo = Math.max(m_food.carbohydrate, m_food.dietaryFibre + m_food.sugar);
         }

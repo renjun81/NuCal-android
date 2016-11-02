@@ -158,15 +158,13 @@
     <string name="t23_text4a">發送數據</string>
     <string name="t23_text5a">接收數據</string>
     <string name="t23_text6a">退出</string>
-    <string name="t23_msg_read_ok">接收數據 OK - 現在退出</string>
-    <string name="t23_msg_write_ok">發送數據 OK - 現在退出</string>
-    <string name="menu3a_text5c_g_ml">克/毫升</string>
-    <string name="menu3a_text5d">100克/毫升</string>
+    <string name="t23_msg_read_ok">接收數據成功</string>
+    <string name="t23_msg_write_ok">發送數據成功</string>
 
     <string name="msg_select_foods_to_send">請選擇要傳送的食品。</string>
     <string name="err_bluetooth_not_supported_device">您的設備不支持藍芽功能</string>
-    <string name="msg_select_bluetooth_mode">請選擇藍芽設備模式</string>
     <string name="err_connnect_failed">連接失敗，在對方設備裡激活傳送模式。</string>
-    <string name="master_device">主設備</string>
-    <string name="slave_device">從設備</string>
+    <string name="msg_select_bluetooth_mode">請選擇傳移模式</string>
+    <string name="mode_send">發送模式</string>
+    <string name="mode_recv">接受模式</string>
 </resources>
