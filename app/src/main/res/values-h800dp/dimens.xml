@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<!-- 960dp device : 600x960dp = 800x1280px(tvdpi) : Nexus 7 -->
+	<!-- 853dp device : 480x854dp: 720x1287200(hdpi), 1440x2560(xxhdpi) Galaxy Note 4 -->
 	<dimen name="profile_photo_size">104dp</dimen>
 	<dimen name="profile_photo_padding">8dp</dimen>
 	<dimen name="profile_row_height">52dp</dimen>

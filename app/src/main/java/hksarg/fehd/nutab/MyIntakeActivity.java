@@ -158,6 +158,7 @@ public class MyIntakeActivity extends AppCompatActivity {
             int amount = holder.getAmount();
             if (amount == 0) {
                 holder.edtAmount.setBackgroundResource(R.drawable.txtfield_error);
+                holder.asteriskView.setVisibility(View.VISIBLE);
                 invalidInput = true;
             }
             m_nuHist.putFood(holder.foodData.getId().intValue(), amount);
@@ -253,6 +254,7 @@ public class MyIntakeActivity extends AppCompatActivity {
     class FoodViewHolder {
         TextView tvFoodName;
         EditText edtAmount;
+        View asteriskView;
         TextView tvAmount;
         TextView tvAmountUnit;
         TextView tvPackageUnit;
@@ -270,7 +272,8 @@ public class MyIntakeActivity extends AppCompatActivity {
             }
             else {
                 edtAmount = (EditText) view.findViewById(R.id.edtAmount);
-                edtAmount.addTextChangedListener(new CustomTextWatcher(edtAmount));
+                asteriskView = view.findViewById(R.id.asteriskView);
+                edtAmount.addTextChangedListener(new CustomTextWatcher(edtAmount, asteriskView));
             }
             tvFoodName.setText(foodData.name);
             tvAmountUnit.setText(szUnit);

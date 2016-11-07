@@ -114,19 +114,36 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/profile_row_height"
                     android:gravity="center_vertical"
-                    android:text="@string/menu4b_text2a"
-                    android:textColor="#344C1A"
-                    android:textSize="@dimen/profile_label_text_size"
-                    android:textStyle="bold"
-                    android:id="@+id/textView9" />
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/menu4b_text2a"
+                        android:textColor="#344C1A"
+                        android:textSize="@dimen/profile_label_text_size"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/base3pt"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/asterisk_size"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/asteriskName" />
 
+                </LinearLayout>
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="@dimen/profile_row_height"
                     android:layout_marginTop="@dimen/profile_row_margin"
                     android:gravity="center_vertical"
@@ -207,15 +224,32 @@
             android:gravity="center_vertical"
             >
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/menu4b_text4a"
-                android:textColor="#344C1A"
-                android:textSize="@dimen/profile_label_text_size"
-                android:textStyle="bold"
-                />
+                android:layout_height="@dimen/profile_row_height"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu4b_text4a"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/base3pt"
+                    android:text="*"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="@dimen/asterisk_size"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    android:id="@+id/asteriskWeight" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/edtWeight"
@@ -260,14 +294,31 @@
             android:layout_marginTop="@dimen/profile_row_margin"
             android:gravity="center_vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/menu4b_text5a"
-                android:textColor="#344C1A"
-                android:textSize="@dimen/profile_label_text_size"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/menu4b_text5a"
+                    android:textColor="#344C1A"
+                    android:textSize="@dimen/profile_label_text_size"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/base3pt"
+                    android:text="*"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textSize="@dimen/asterisk_size"
+                    android:textStyle="bold"
+                    android:visibility="invisible"
+                    android:id="@+id/asteriskHeight" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"

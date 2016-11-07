@@ -2,14 +2,17 @@ package hksarg.fehd.nutab;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 
 
 public class CustomTextWatcher  implements TextWatcher {
     protected EditText mEditText;
+    protected View mAsteriskView;
 
-    public CustomTextWatcher(EditText e) {
-        mEditText = e;
+    public CustomTextWatcher(EditText editText, View asteriskView) {
+        mEditText = editText;
+        mAsteriskView = asteriskView;
     }
 
     @Override
@@ -20,9 +23,13 @@ public class CustomTextWatcher  implements TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        if ( s.length() > 0 )
+        if ( s.length() > 0 ) {
             mEditText.setBackgroundResource(R.drawable.txtfield_normal);
-        else
+            mAsteriskView.setVisibility(View.INVISIBLE);
+        }
+        else {
             mEditText.setBackgroundResource(R.drawable.txtfield_error);
+            mAsteriskView.setVisibility(View.VISIBLE);
+        }
     }
 }

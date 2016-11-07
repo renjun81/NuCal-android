@@ -40,6 +40,9 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
 
     EditText    edtSodium;
 
+    View asteriskName, asteriskPackageSize, asteriskFibre;
+    View asteriskTotalFat, asteriskSaturatedFat, asteriskTransFat;
+
     View        btnSave;
 
     Food m_food;
@@ -60,10 +63,12 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         });
 
         edtName = (EditText) findViewById(R.id.edtName);
+        asteriskName = findViewById(R.id.asteriskName);
         opt100g = findViewById(R.id.opt100g);
         opt100ml = findViewById(R.id.opt100ml);
         optCustom = findViewById(R.id.optCustom);
         edtPackageSize = (EditText) findViewById(R.id.edtPackageSize);
+        asteriskPackageSize = findViewById(R.id.asteriskPackageSize);
         optUnitG = findViewById(R.id.optUnitG);
         optUnitMl = findViewById(R.id.optUnitMl);
         tvPackageUnit = (TextView) findViewById(R.id.tvPackageUnit);
@@ -78,11 +83,16 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtSaturatedFat = (EditText) findViewById(R.id.edtSaturatedFat);
         edtTransFat = (EditText) findViewById(R.id.edtTransFat);
 
+        asteriskTotalFat = findViewById(R.id.asteriskTotalFat);
+        asteriskSaturatedFat = findViewById(R.id.asteriskSaturatedFat);
+        asteriskTransFat = findViewById(R.id.asteriskTransFat);
+
         edtCholesterol = (EditText) findViewById(R.id.edtCholestrol);
 
         carboSpinner= (Spinner) findViewById(R.id.carbo_spinner);
         edtCarbohydrate = (EditText) findViewById(R.id.edtCarbohydrate);
         edtDietaryFibre = (EditText) findViewById(R.id.edtDietaryFibre);
+        asteriskFibre = findViewById(R.id.asteriskFibre);
         edtSugar = (EditText) findViewById(R.id.edtSugar);
 
         edtSodium = (EditText) findViewById(R.id.edtSodium);
@@ -97,15 +107,48 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         optUnitKJ.setOnClickListener(this);
         btnSave.setOnClickListener(this);
 
-        final TextWatcher fibreWatcher = new CustomTextWatcher(edtDietaryFibre){
+        TextWatcher fatWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
             @Override
             public void afterTextChanged(Editable s) {
+                float totalFat = parseFloat(edtTotalFat.getText().toString());
+                float saturatedFat = parseFloat(edtSaturatedFat.getText().toString());
+                float transFat = parseFloat(edtTransFat.getText().toString());
+                if ( totalFat > 0 && totalFat < saturatedFat + transFat ) {
+                    edtTotalFat.setBackgroundResource(R.drawable.txtfield_error);
+                    edtSaturatedFat.setBackgroundResource(R.drawable.txtfield_error);
+                    edtTransFat.setBackgroundResource(R.drawable.txtfield_error);
+                    asteriskTotalFat.setVisibility(View.VISIBLE);
+                    asteriskSaturatedFat.setVisibility(View.VISIBLE);
+                    asteriskTransFat.setVisibility(View.VISIBLE);
+                }
+                else {
+                    edtTotalFat.setBackgroundResource(R.drawable.txtfield_normal);
+                    edtSaturatedFat.setBackgroundResource(R.drawable.txtfield_normal);
+                    edtTransFat.setBackgroundResource(R.drawable.txtfield_normal);
+                    asteriskTotalFat.setVisibility(View.INVISIBLE);
+                    asteriskSaturatedFat.setVisibility(View.INVISIBLE);
+                    asteriskTransFat.setVisibility(View.INVISIBLE);
+                }
+            }
+        };
+        edtTotalFat.addTextChangedListener(fatWatcher);
+        edtSaturatedFat.addTextChangedListener(fatWatcher);
+        edtTransFat.addTextChangedListener(fatWatcher);
+
+        final TextWatcher fibreWatcher = new CustomTextWatcher(edtDietaryFibre, asteriskFibre){
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
                 if ( s.length() > 0 ) {
-                    mEditText.setBackgroundResource(R.drawable.txtfield_normal);
                     btnSave.setEnabled(true);
                 }
                 else {
-                    mEditText.setBackgroundResource(R.drawable.txtfield_error);
                     btnSave.setEnabled(false);
                 }
             }
@@ -121,6 +164,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
                     edtDietaryFibre.addTextChangedListener(fibreWatcher);
                     if ( edtDietaryFibre.getText().length() == 0 ) {
                         edtDietaryFibre.setBackgroundResource(R.drawable.txtfield_error);
+                        asteriskFibre.setVisibility(View.VISIBLE);
                         btnSave.setEnabled(false);
                         AppConfig.showMessageDialog(AddFoodActivity.this, R.string.menu2a_d02);
                     }
@@ -130,6 +174,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 else {
                     edtDietaryFibre.removeTextChangedListener(fibreWatcher);
+                    asteriskFibre.setVisibility(View.INVISIBLE);
                     btnSave.setEnabled(true);
                 }
             }
@@ -153,8 +198,8 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             showFoodInfo();
         }
 
-        edtName.addTextChangedListener(new CustomTextWatcher(edtName));
-        edtPackageSize.addTextChangedListener(new CustomTextWatcher(edtPackageSize));
+        edtName.addTextChangedListener(new CustomTextWatcher(edtName, asteriskName));
+        edtPackageSize.addTextChangedListener(new CustomTextWatcher(edtPackageSize, asteriskPackageSize));
     }
 
     private void showFoodInfo() {
@@ -177,7 +222,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             setTwoOption(optUnitKCal, optUnitKJ, false);
 
         edtProtein.setText(format(m_food.protein));
-        edtTotalFat.setText(format(m_food.saturatedFat + m_food.transFat));
+        edtTotalFat.setText(format(m_food.totalFat));
         edtSaturatedFat.setText(format(m_food.saturatedFat));
         edtTransFat.setText(format(m_food.transFat));
         edtCholesterol.setText(format(m_food.cholesterol));
@@ -192,6 +237,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         m_food.name = edtName.getText().toString();
         if (TextUtils.isEmpty(m_food.name) ) {
             edtName.setBackgroundResource(R.drawable.txtfield_error);
+            asteriskName.setVisibility(View.VISIBLE);
             AppConfig.showMessageDialog(this, R.string.menu2a_d10);
             return;
         }
@@ -199,6 +245,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             Food food = new Select().from(Food.class).where("name='" + m_food.name + "'").executeSingle();
             if ( food != null ) {
                 edtName.setBackgroundResource(R.drawable.txtfield_error);
+                asteriskName.setVisibility(View.VISIBLE);
                 AppConfig.showMessageDialog(this, R.string.menu2a_d11);
                 return;
             }
@@ -208,6 +255,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             m_food.packageSize = parseInt(edtPackageSize.getText().toString());
             if ( m_food.packageSize == 0 ) {
                 edtPackageSize.setBackgroundResource(R.drawable.txtfield_error);
+                asteriskPackageSize.setVisibility(View.VISIBLE);
                 AppConfig.showMessageDialog(this, R.string.menu2a_d12);
                 return;
             }
@@ -222,6 +270,12 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         float totalFat = m_food.totalFat > 0 ? m_food.totalFat : m_food.saturatedFat + m_food.transFat;
         if ( m_food.totalFat > 0 && totalFat < m_food.saturatedFat + m_food.transFat ) {
             AppConfig.showMessageDialog(this, R.string.menu2a_d07);
+            edtTotalFat.setBackgroundResource(R.drawable.txtfield_error);
+            edtSaturatedFat.setBackgroundResource(R.drawable.txtfield_error);
+            edtTransFat.setBackgroundResource(R.drawable.txtfield_error);
+            asteriskTotalFat.setVisibility(View.VISIBLE);
+            asteriskSaturatedFat.setVisibility(View.VISIBLE);
+            asteriskTransFat.setVisibility(View.VISIBLE);
             return;
         }
 

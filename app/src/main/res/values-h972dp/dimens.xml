@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<!-- 1024dp device : 768x1024(mdpi), 1536x2048(xhdpi) Nexus9, -->
 	<dimen name="profile_photo_size">108dp</dimen>
 	<dimen name="profile_photo_padding">8dp</dimen>
 	<dimen name="profile_row_height">54dp</dimen>

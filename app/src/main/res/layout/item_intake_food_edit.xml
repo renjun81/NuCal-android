@@ -9,13 +9,31 @@
     android:paddingRight="@dimen/base_margin"
     >
 
-    <TextView
-        android:id="@+id/tvFoodName"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:layout_height="wrap_content"
-        android:text="butter"
-        android:textSize="@dimen/form_label_text_size"/>
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tvFoodName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="butter"
+            android:textSize="@dimen/form_label_text_size"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/base3pt"
+            android:text="*"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/asterisk_size"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            android:id="@+id/asteriskView" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="0dp"

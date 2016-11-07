@@ -332,10 +332,15 @@ public class User extends Model{
         return new Select().from(User.class).execute();
     }
 
-    public long setAsDefaultUser() {
-        new Update(User.class).set("is_active=0").execute();
+    public boolean setAsDefaultUser() {
         this.isActive = true;
-        return save();
+        Long id = save();
+        if ( id != null && id.longValue() > 0) {
+            new Update(User.class).set("is_active=0").execute();
+            return true;
+        }
+
+        return false;
     }
 
     public static User getDefaultUser() {

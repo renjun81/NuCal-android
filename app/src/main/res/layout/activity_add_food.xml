@@ -28,14 +28,32 @@
                 android:orientation="horizontal"
                 >
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="0.5"
-                    android:layout_height="wrap_content"
-                    android:text="@string/menu2a_text2a"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/form_label_text_size"
-                    android:id="@+id/textView8" />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu2a_text2a"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/form_label_text_size"
+                        android:id="@+id/textView8" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/base3pt"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/asterisk_size"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/asteriskName" />
+                </LinearLayout>
+
 
                 <EditText
                     android:id="@+id/edtName"
@@ -111,10 +129,18 @@
                     android:orientation="horizontal"
                     >
 
-                    <View
+                    <TextView
                         android:layout_width="0dp"
+                        android:layout_weight="4"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"/>
+                        android:gravity="right"
+                        android:paddingRight="@dimen/base3pt"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/asterisk_size"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/asteriskPackageSize" />
 
                     <EditText
                         android:id="@+id/edtPackageSize"
@@ -257,14 +283,31 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="@string/menu2a_text8a"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/form_label_text_size"
-                    />
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    >
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="@string/menu2a_text8a"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/form_label_text_size"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/base3pt"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/asterisk_size"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/asteriskTotalFat" />
+                </LinearLayout>
 
                 <EditText
                     android:id="@+id/edtTotalFat"
@@ -298,13 +341,30 @@
                     android:orientation="horizontal"
                     >
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:text="@string/menu2a_text9a"
-                        android:textSize="@dimen/form_label_text_size"
-                        />
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu2a_text9a"
+                            android:textSize="@dimen/form_label_text_size"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base3pt"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/asterisk_size"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:id="@+id/asteriskSaturatedFat" />
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/edtSaturatedFat"
@@ -331,13 +391,30 @@
                     android:gravity="center_vertical"
                     >
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_weight="2"
-                        android:layout_height="wrap_content"
-                        android:text="@string/menu2a_text10a"
-                        android:textSize="@dimen/form_label_text_size"
-                        />
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_height="wrap_content"
+                            android:text="@string/menu2a_text10a"
+                            android:textSize="@dimen/form_label_text_size"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/base3pt"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/asterisk_size"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:id="@+id/asteriskTransFat" />
+                    </LinearLayout>
 
                     <EditText
                         android:id="@+id/edtTransFat"
@@ -462,11 +539,21 @@
                         android:textSize="@dimen/form_label_text_size"
                         />
 
+                    <TextView
+                        android:layout_width="@dimen/base_margin"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="*"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="@dimen/asterisk_size"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        android:id="@+id/asteriskFibre" />
+
                     <EditText
                         android:id="@+id/edtDietaryFibre"
                         style="@style/form_input"
                         android:layout_weight="2"
-                        android:layout_marginLeft="@dimen/base_margin"
                         android:layout_marginRight="@dimen/form_input_margin"
                         android:inputType="numberDecimal"
                         />

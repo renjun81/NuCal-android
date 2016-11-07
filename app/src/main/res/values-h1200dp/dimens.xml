@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	
+	<!-- 1280dp device : 800x1280(mdpi), 1600x2560(xhdpi) -->
 	<dimen name="profile_photo_size">128dp</dimen>
 	<dimen name="profile_photo_padding">12dp</dimen>
 	<dimen name="profile_row_height">64dp</dimen>
