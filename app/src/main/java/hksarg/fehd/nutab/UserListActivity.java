@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.daimajia.swipe.SimpleSwipeListener;
@@ -50,7 +51,7 @@ public class UserListActivity extends AppCompatActivity {
         btnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                m_adapter.toggleEditMode();
             }
         });
 
@@ -79,6 +80,11 @@ public class UserListActivity extends AppCompatActivity {
 
             }
         });
+
+//        m_listUsers.setItemsCanFocus(true);
+//        m_listUsers.setFocusable(false);
+//        m_listUsers.setFocusableInTouchMode(false);
+//        m_listUsers.setClickable(false);
     }
 
     @Override
@@ -96,6 +102,12 @@ public class UserListActivity extends AppCompatActivity {
         public ListViewAdapter(Context mContext) {
             this.mContext = mContext;
             this.m_data = User.getAll();
+        }
+
+        private boolean mIsEditMode;
+        public void toggleEditMode() {
+            mIsEditMode = !mIsEditMode;
+            notifyDataSetChanged();
         }
 
         @Override
@@ -162,6 +174,12 @@ public class UserListActivity extends AppCompatActivity {
                     //YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
                 }
             });
+            v.findViewById(R.id.btnDelete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    swipeLayout.open();
+                }
+            });
             ((RadioButton)v.findViewById(R.id.optActive)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -210,6 +228,17 @@ public class UserListActivity extends AppCompatActivity {
             else
                 ivAvatar.setImageResource(R.drawable.userpic_default);
             tvUserName.setText(user.name);
+
+            if ( mIsEditMode ) {
+                convertView.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
+                convertView.findViewById(R.id.optActive).setVisibility(View.GONE);
+                convertView.findViewById(R.id.btnGo).setVisibility(View.INVISIBLE);
+            }
+            else {
+                convertView.findViewById(R.id.btnDelete).setVisibility(View.GONE);
+                convertView.findViewById(R.id.optActive).setVisibility(View.VISIBLE);
+                convertView.findViewById(R.id.btnGo).setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

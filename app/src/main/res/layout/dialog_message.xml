@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/base_margin"
         android:background="@drawable/popup_btn"
-        android:text="OK"
+        android:text="@string/dok"
         android:textSize="@dimen/dialog_button_text_size"
         android:layout_gravity="center"
         android:gravity="center"

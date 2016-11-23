@@ -76,8 +76,10 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         btnChangeUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserProfileActivity.this, UserListActivity.class));
-                finish();
+                if ( validateInputValues() && m_user.setAsDefaultUser() ) {
+                    startActivity(new Intent(UserProfileActivity.this, UserListActivity.class));
+                    finish();
+                }
             }
         });
 
@@ -176,7 +178,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean fromUser) {
-                if ( fromUser ) {
+                //if ( fromUser )
+                {
                     if ( i  >= 7 )
                         tvAge.setText(i + "");
                     else
@@ -226,6 +229,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             m_user.weightUnit = User.WEIGHT_UNIT_KG;
             m_user.heightUnit = User.HEIGHT_UNIT_METER;
             m_user.activityLevel = User.ACTIVITY_LEVEL_LOW;
+            m_user.isAsian = true;
         }
         else {
             Bitmap avatar = m_user.getAvatar();
@@ -312,13 +316,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             m_user.height = (feet * 12 + inch) * 0.0254f;
         }
 
-        if ( TextUtils.isEmpty(m_user.name) )
+        if ( TextUtils.isEmpty(m_user.name) ) {
             edtName.setBackgroundResource(R.drawable.txtfield_error);
+            asteriskName.setVisibility(View.VISIBLE);
+        }
         else
             edtName.setBackgroundResource(R.drawable.txtfield_normal);
 
-        if ( weight == 0 )
+        if ( weight == 0 ) {
             edtWeight.setBackgroundResource(R.drawable.txtfield_error);
+            asteriskWeight.setVisibility(View.VISIBLE);
+        }
         else
             edtWeight.setBackgroundResource(R.drawable.txtfield_normal);
 
@@ -334,20 +342,25 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+        int nErrMsg = 0;
         //m_user.name = edtName.getText().toString();
         if ( TextUtils.isEmpty(m_user.name) ) {
-            AppConfig.showMessageDialog(this, R.string.menu4b_d02);
-            return false;
+            nErrMsg += 1;
         }
 
         //float weight = parseFloat(edtWeight.getText().toString());
         if ( weight == 0 ) {
-            AppConfig.showMessageDialog(this, R.string.menu4b_d03);
-            return false;
+            nErrMsg += 2;
         }
 
         if ( m_user.height == 0 ) {
-            AppConfig.showMessageDialog(this, R.string.menu4b_d04);
+            nErrMsg += 4;
+        }
+
+        if ( nErrMsg > 0 ) {
+            int errMsgs[] = {R.string.menu4b_d02, R.string.menu4b_d03, R.string.menu4b_d05, R.string.menu4b_d04,
+                    R.string.menu4b_d06, R.string.menu4b_d07, R.string.menu4b_d08};
+            AppConfig.showMessageDialog(this, errMsgs[nErrMsg-1]);
             return false;
         }
 
@@ -363,7 +376,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         if ( m_user.weightUnit == User.WEIGHT_UNIT_KG ) {
             m_user.weight = weight;
-            if ( weight >= 200 ) {
+            if ( weight > 200 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d10);
                 edtWeight.setBackgroundResource(R.drawable.txtfield_error);
                 asteriskWeight.setVisibility(View.VISIBLE);
@@ -382,7 +395,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         if ( m_user.heightUnit == User.HEIGHT_UNIT_METER ) {
             m_user.height = parseFloat(edtHeightMeter.getText().toString());
-            if ( m_user.height >= 3 ) {
+            if ( m_user.height > 3 ) {
                 AppConfig.showMessageDialog(this, R.string.menu4b_d11);
                 edtHeightMeter.setBackgroundResource(R.drawable.txtfield_error);
                 asteriskHeight.setVisibility(View.VISIBLE);
@@ -460,9 +473,9 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     edtHeightMeter.setVisibility(View.GONE);
                     if (edtHeightMeter.getText().toString().length() > 0) {
                         float height = parseFloat(edtHeightMeter.getText().toString());
-                        float inches = height * 39.3701f;
+                        float inches = height / 0.0254f;
                         int foot = (int) (inches / 12);
-                        int inch = (int) (inches % 12);
+                        int inch = (int) Math.round(inches % 12);
                         edtHeightFeet.setText(foot + "");
                         edtHeightInch.setText(inch + "");
                     }
@@ -519,6 +532,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.asian_bmi:
                 ivBMIBoard.setImageResource(R.drawable.balance_asian);
+                m_user.isAsian = true;
                 if ( !validateInputValues() )
                     return;
 
@@ -530,6 +544,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.non_asian_bmi:
                 ivBMIBoard.setImageResource(R.drawable.balance_nonasian);
+                m_user.isAsian = false;
                 if ( !validateInputValues() )
                     return;
 
@@ -542,8 +557,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void showBMIMeter() {
-        AppConfig.showMessageDialog(this, R.string.menu4b_d13);
-
         int nTop = bmiMeter.getTop();
         TranslateAnimation anim = new TranslateAnimation(bmiMeter.getLeft(), bmiMeter.getLeft(),
                 nTop + bdHeight + llEnergyRequired.getHeight(), nTop);
@@ -571,15 +584,19 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
     private void updateBMI() {
         float weight = m_user.weight;
         float height = m_user.height;
+        float bmi = weight / (height * height);
 
         // -19.5 == 18.5 BMI
         //  13.5 == 23   BMI
         //  53 (max) 14.64 ~ 26.86
         float unit = (19.5f + 13.5f) / ( 23 - 18.5f );
-        float bmi = weight / (height * height);
         float newRotation = unit * (bmi - 20.25f);
         newRotation = newRotation > 53 ? 53 : newRotation;
         newRotation = newRotation < -53 ? - 53 : newRotation;
+
+        float bmidegree = 10 + (bmi - 22)*(110.f/13);
+        newRotation = bmidegree <= - 55 ? -55 : bmidegree >= 55 ? 55 : bmidegree;
+
         RotateAnimation rotAnim = new RotateAnimation(m_previousRotation, newRotation, ptWidth / 2, ptHeight / 2);
         rotAnim.setDuration(1000);
         rotAnim.setStartOffset(200);
@@ -588,12 +605,17 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         tvBMI.setText(String.format("BMI: %.1f", bmi));
 
-        if ( bmi < 18.5 )
+        if ( bmi < 18.5 ) {
             ivBMIPointer.setImageResource(R.drawable.pointer_underweight);
-        else if ( (m_user.isAsian && bmi <= 23)||(!m_user.isAsian && bmi <= 25) )
+            AppConfig.showMessageDialog(this, R.string.menu4b_d13);
+        }
+        else if ( (m_user.isAsian && bmi < 23)||(!m_user.isAsian && bmi < 25) ) {
             ivBMIPointer.setImageResource(R.drawable.pointer_normal);
-        else
+        }
+        else {
             ivBMIPointer.setImageResource(R.drawable.pointer_overweight);
+            AppConfig.showMessageDialog(this, R.string.menu4b_d13);
+        }
 
         m_user.weight = weight;
         m_user.age = seekbar.getProgress();

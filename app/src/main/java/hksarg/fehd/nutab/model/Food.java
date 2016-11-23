@@ -36,7 +36,7 @@ public class Food extends Model{
 
     @Expose
     @Column(name="package_size")
-    public int packageSize;
+    public float packageSize;
 
     @Expose
     @Column(name="package_unit")
@@ -44,7 +44,7 @@ public class Food extends Model{
 
     @Expose
     @Column(name="energy_size")
-    public int energySize;
+    public float energySize;
 
     @Expose
     @Column(name="energy_unit")
@@ -99,18 +99,18 @@ public class Food extends Model{
             case FOOD_LOW_FAT:
                 float fat = Math.max(totalFat, saturatedFat + transFat);
                 if ( packageUnit == PACKAGE_UNIT_G)
-                    return fat/packageSize < 3.f/100;
+                    return fat >0 && fat/packageSize < 3.f/100;
                 else
-                    return fat/packageSize < 1.5/100;
+                    return fat > 0 && fat/packageSize < 1.5/100;
 
             case FOOD_LOW_SALT:
-                return (sodium/1000)/packageSize < 0.12/100;
+                return sodium > 0 && (sodium/1000)/packageSize < 0.12/100;
 
             case FOOD_LOW_SUGAR:
-                return sugar/packageSize < 5.f/100;
+                return sugar > 0 && sugar/packageSize < 5.f/100;
 
             case FOOD_THREE_LOW:
-                return isFoodType(FOOD_LOW_FAT) & isFoodType(FOOD_LOW_SALT) & isFoodType(FOOD_LOW_SUGAR);
+                return isFoodType(FOOD_LOW_FAT) && isFoodType(FOOD_LOW_SALT) && isFoodType(FOOD_LOW_SUGAR);
         }
 
         return true;

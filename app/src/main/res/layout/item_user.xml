@@ -31,13 +31,20 @@
         android:paddingRight="@dimen/base8pt"
         android:paddingTop="@dimen/base3pt"
         android:paddingBottom="@dimen/base3pt"
+        android:layout_marginLeft="10dp"
         >
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:src="@drawable/icon_delete" />
 
         <RadioButton
             android:id="@+id/optActive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:button="@drawable/btn_radio_draw"
             android:background="@android:color/transparent"
             />

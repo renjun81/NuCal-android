@@ -29,6 +29,7 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
 
     User    m_user;
     ListView  m_listView;
+    ListViewAdapter m_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
         btnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                m_adapter.toggleEditMode();
             }
         });
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
@@ -69,7 +70,8 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
             ivAvatar.setImageBitmap(m_user.getAvatar());
 
         m_listView = (ListView) findViewById(R.id.listView);
-        m_listView.setAdapter(new ListViewAdapter(this));
+        m_adapter = new ListViewAdapter(this);
+        m_listView.setAdapter(m_adapter);
         m_listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -89,6 +91,12 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
 
         public ListViewAdapter(Context mContext) {
             this.mContext = mContext;
+            notifyDataSetChanged();
+        }
+
+        private boolean mIsEditMode;
+        public void toggleEditMode() {
+            mIsEditMode = !mIsEditMode;
             notifyDataSetChanged();
         }
 
@@ -150,6 +158,12 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
                     //YoYo.with(Techniques.Tada).duration(500).delay(100).playOn(layout.findViewById(R.id.trash));
                 }
             });
+            v.findViewById(R.id.btnDelete).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    swipeLayout.open();
+                }
+            });
             v.findViewById(R.id.trash).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -167,6 +181,14 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
             NuHist itemData = getItem(position);
             tvRecordedTime.setText(itemData.getRecordTimeString(tvRecordedTime.getContext()));
             convertView.setTag(itemData);
+            if ( mIsEditMode ) {
+                convertView.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
+                convertView.findViewById(R.id.btnGo).setVisibility(View.INVISIBLE);
+            }
+            else {
+                convertView.findViewById(R.id.btnDelete).setVisibility(View.GONE);
+                convertView.findViewById(R.id.btnGo).setVisibility(View.VISIBLE);
+            }
         }
 
         @Override

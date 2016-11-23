@@ -32,6 +32,7 @@ import java.lang.reflect.Type;
 import java.util.Iterator;
 import java.util.List;
 
+import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.RecyclerSwipeAdapter;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -85,6 +86,7 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
         btnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                m_adapter.toggleEditMode();
             }
         });
         findViewById(R.id.btnRight).setOnClickListener(new View.OnClickListener() {
@@ -188,18 +190,17 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
 
     private void bluetoothTransmit() {
 
-        if ( mBluetoothAdapter == null ) {
+        if ( mBluetoothAdapter == null )
             // Get local Bluetooth adapter
             mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-            // If the adapter is null, then Bluetooth is not supported
-            if (mBluetoothAdapter == null) {
-                AppConfig.showMessageDialog(this, R.string.err_bluetooth_not_supported_device);
-                return;
-            }
 
-            mChatService = new BluetoothChatService(mContext, mHandler, true);
-            mChatService.listen();
+        // If the adapter is null, then Bluetooth is not supported
+        if (mBluetoothAdapter == null) {
+            AppConfig.showMessageDialog(this, R.string.err_bluetooth_not_supported_device);
+            return;
         }
+
+        mChatService = new BluetoothChatService(mContext, mHandler, true);
 
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -343,6 +344,9 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
     };
 
     public void selectBluetoothMode() {
+
+        mChatService.listen();
+
         final Dialog dialog = new Dialog(this, android.R.style.Theme_DeviceDefault_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_confirm);
@@ -406,13 +410,16 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                 mChatService.listen();
             }
         }
+
+        if ( m_adapter != null )
+            m_adapter.notifyDataSetChanged();
     }
 
     class RecyclerViewAdapter extends RecyclerSwipeAdapter<RecyclerViewAdapter.FoodViewHolder> {
 
         class FoodViewHolder extends RecyclerView.ViewHolder {
 
-            View        trash, btnGo;
+            View        btnDelete, trash, btnGo;
 
             CheckBox    chkSelected;
             TextView    tvFoodName;
@@ -426,6 +433,7 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                 icSalt = itemView.findViewById(R.id.icSalt);
                 icSugar = itemView.findViewById(R.id.icSugar);
                 icBest = itemView.findViewById(R.id.icBest);
+                btnDelete = itemView.findViewById(R.id.btnDelete);
                 trash = itemView.findViewById(R.id.trash);
                 btnGo = itemView.findViewById(R.id.btnGo);
             }
@@ -433,10 +441,18 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
             public void bindData(final Food food) {
                 tvFoodName.setText(food.name);
                 chkSelected.setChecked(food.isSelected);
-                icFat.setVisibility(food.isFoodType(Food.FOOD_LOW_FAT) ? View.VISIBLE : View.INVISIBLE);
-                icSalt.setVisibility(food.isFoodType(Food.FOOD_LOW_SALT) ? View.VISIBLE : View.INVISIBLE);
-                icSugar.setVisibility(food.isFoodType(Food.FOOD_LOW_SUGAR) ? View.VISIBLE : View.INVISIBLE);
-                icBest.setVisibility(food.isFoodType(Food.FOOD_THREE_LOW) ? View.VISIBLE : View.INVISIBLE);
+                if ( ( food.isFoodType(Food.FOOD_THREE_LOW)) ) {
+                    icFat.setVisibility(View.INVISIBLE);
+                    icSalt.setVisibility(View.INVISIBLE);
+                    icSugar.setVisibility(View.INVISIBLE);
+                    icBest.setVisibility(View.VISIBLE);
+                }
+                else {
+                    icFat.setVisibility(food.isFoodType(Food.FOOD_LOW_FAT) ? View.VISIBLE : View.INVISIBLE);
+                    icSalt.setVisibility(food.isFoodType(Food.FOOD_LOW_SALT) ? View.VISIBLE : View.INVISIBLE);
+                    icSugar.setVisibility(food.isFoodType(Food.FOOD_LOW_SUGAR) ? View.VISIBLE : View.INVISIBLE);
+                    icBest.setVisibility(View.INVISIBLE);
+                }
 
                 chkSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -446,6 +462,23 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
 
+                if ( mIsEditMode ) {
+                    btnDelete.setVisibility(View.VISIBLE);
+                    chkSelected.setVisibility(View.GONE);
+                    btnGo.setVisibility(View.INVISIBLE);
+                }
+                else {
+                    btnDelete.setVisibility(View.GONE);
+                    chkSelected.setVisibility(View.VISIBLE);
+                    btnGo.setVisibility(View.VISIBLE);
+                }
+
+                btnDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((SwipeLayout)itemView).open();
+                    }
+                });
                 btnGo.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -454,7 +487,6 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                         v.getContext().startActivity(intent);
                     }
                 });
-
                 trash.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -464,6 +496,12 @@ public class MyFoodListActivity extends AppCompatActivity implements View.OnClic
                     }
                 });
             }
+        }
+
+        private boolean mIsEditMode;
+        public void toggleEditMode() {
+            mIsEditMode = !mIsEditMode;
+            notifyDataSetChanged();
         }
 
         private int m_foodType;

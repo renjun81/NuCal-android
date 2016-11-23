@@ -147,7 +147,7 @@
                         style="@style/form_input"
                         android:layout_weight="2"
                         android:layout_marginRight="8dp"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         />
 
                     <TextView
@@ -211,7 +211,7 @@
                     android:id="@+id/edtEnergy"
                     style="@style/form_input"
                     android:layout_marginRight="@dimen/form_input_margin"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     />
 
                 <TextView
@@ -482,6 +482,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/llCarbo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bubble_green"
@@ -506,14 +507,28 @@
                         android:background="@drawable/choice_gray"
                         android:dropDownVerticalOffset="@dimen/form_row_height"/>
 
-                    <EditText
-                        android:id="@+id/edtCarbohydrate"
-                        style="@style/form_input"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:layout_marginLeft="@dimen/base_margin"
                         android:layout_marginRight="@dimen/form_input_margin"
-                        android:inputType="numberDecimal"
-                        />
+                        >
+                        <TextView
+                            android:layout_width="@dimen/base_margin"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/asterisk_size"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:id="@+id/asteriskCarbo" />
+                        <EditText
+                            android:id="@+id/edtCarbohydrate"
+                            style="@style/form_input"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
@@ -539,24 +554,29 @@
                         android:textSize="@dimen/form_label_text_size"
                         />
 
-                    <TextView
-                        android:layout_width="@dimen/base_margin"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="*"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:textSize="@dimen/asterisk_size"
-                        android:textStyle="bold"
-                        android:visibility="invisible"
-                        android:id="@+id/asteriskFibre" />
-
-                    <EditText
-                        android:id="@+id/edtDietaryFibre"
-                        style="@style/form_input"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:layout_marginRight="@dimen/form_input_margin"
-                        android:inputType="numberDecimal"
-                        />
+                        >
+                        <TextView
+                            android:layout_width="@dimen/base_margin"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/asterisk_size"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:id="@+id/asteriskFibre" />
+
+                        <EditText
+                            android:id="@+id/edtDietaryFibre"
+                            style="@style/form_input"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
@@ -583,14 +603,28 @@
                         android:textSize="@dimen/form_label_text_size"
                         />
 
-                    <EditText
-                        android:id="@+id/edtSugar"
-                        style="@style/form_input"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_weight="2"
-                        android:layout_marginLeft="@dimen/base_margin"
                         android:layout_marginRight="@dimen/form_input_margin"
-                        android:inputType="numberDecimal"
-                        />
+                        >
+                        <TextView
+                            android:layout_width="@dimen/base_margin"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="*"
+                            android:textColor="@android:color/holo_red_dark"
+                            android:textSize="@dimen/asterisk_size"
+                            android:textStyle="bold"
+                            android:visibility="invisible"
+                            android:id="@+id/asteriskSugar" />
+                        <EditText
+                            android:id="@+id/edtSugar"
+                            style="@style/form_input"
+                            android:inputType="numberDecimal"
+                            />
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"

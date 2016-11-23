@@ -333,10 +333,11 @@ public class User extends Model{
     }
 
     public boolean setAsDefaultUser() {
+        new Update(User.class).set("is_active=0").execute();
+
         this.isActive = true;
         Long id = save();
         if ( id != null && id.longValue() > 0) {
-            new Update(User.class).set("is_active=0").execute();
             return true;
         }
 

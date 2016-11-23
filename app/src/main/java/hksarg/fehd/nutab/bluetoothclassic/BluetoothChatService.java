@@ -417,7 +417,7 @@ public class BluetoothChatService {
             }
 
             // Always cancel discovery because it will slow down a connection
-            if ( mAdapter.isDiscovering() )
+            if ( mAdapter != null && mAdapter.isDiscovering() )
                 mAdapter.cancelDiscovery();
 
             // Make a connection to the BluetoothSocket
