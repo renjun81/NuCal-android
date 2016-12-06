@@ -39,6 +39,7 @@ public class MyIntakeActivity extends AppCompatActivity {
 
     String UNIT_GRAM;
     String UNIT_ML;
+    String UNIT_GRAM_ML;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class MyIntakeActivity extends AppCompatActivity {
 
         UNIT_GRAM = getResources().getString(R.string.menu2a_text5c_g);
         UNIT_ML = getResources().getString(R.string.menu2a_text5c_ml);
+        UNIT_GRAM_ML = getString(R.string.menu2a_text5c_g_ml);
 
         long nuHistId = getIntent().getLongExtra("nu_hist_id", 0);
         m_nuHist = NuHist.load(NuHist.class, nuHistId);
@@ -156,7 +158,7 @@ public class MyIntakeActivity extends AppCompatActivity {
         while( itr.hasNext() ) {
             FoodViewHolder holder = itr.next();
             int amount = holder.getAmount();
-            if (amount == 0) {
+            if (holder.edtAmount != null && holder.edtAmount.length() == 0) {
                 holder.edtAmount.setBackgroundResource(R.drawable.txtfield_error);
                 holder.asteriskView.setVisibility(View.VISIBLE);
                 invalidInput = true;
@@ -189,20 +191,31 @@ public class MyIntakeActivity extends AppCompatActivity {
         while( itr.hasNext() ) {
             FoodViewHolder holder = itr.next();
             Food food = holder.foodData;
+            float energySize = Math.max(0, food.energySize);
+            float protein = Math.max(0, food.protein);
+            float foodFat = Math.max(0, food.totalFat);
+            float saturatedFat = Math.max(0, food.saturatedFat);
+            float transFat = Math.max(0, food.transFat);
+            float cholesterol = Math.max(0, food.cholesterol);
+            float carbohydrate = Math.max(0, food.carbohydrate);
+            float dietaryFibre = Math.max(0, food.dietaryFibre);
+            float sugar = Math.max(0, food.sugar);
+            float sodium = Math.max(0, food.sodium);
+
             float coef = holder.getAmount() / (float)food.packageSize;
-            totalEnergy = totalEnergy + coef * (food.energyUnit == Food.ENERGY_UNIT_KCAL ? food.energySize : food.energySize / 4.184f );
-            totalProtein = totalProtein + coef * food.protein;
-            totalFat = totalFat + coef * food.totalFat;
-            totalSatFat = totalSatFat + coef * food.saturatedFat;
-            totalTransFat = totalTransFat + coef * food.transFat;
-            totalCholesterol = totalCholesterol + coef * food.cholesterol;
-            totalFibre = totalFibre + coef * food.dietaryFibre;
-            totalSugar = totalSugar + coef * food.sugar;
-            totalSodium = totalSodium + coef * food.sodium;
+            totalEnergy = totalEnergy + coef * (food.energyUnit == Food.ENERGY_UNIT_KCAL ? energySize : energySize / 4.184f );
+            totalProtein = totalProtein + coef * protein;
+            totalFat = totalFat + coef * foodFat;
+            totalSatFat = totalSatFat + coef * saturatedFat;
+            totalTransFat = totalTransFat + coef * transFat;
+            totalCholesterol = totalCholesterol + coef * cholesterol;
+            totalFibre = totalFibre + coef * dietaryFibre;
+            totalSugar = totalSugar + coef * sugar;
+            totalSodium = totalSodium + coef * sodium;
             if ( food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
-                totalCarbohydrate = totalCarbohydrate + coef * Math.max(0, food.carbohydrate - food.dietaryFibre);
+                totalCarbohydrate = totalCarbohydrate + coef * Math.max(0, carbohydrate - dietaryFibre);
             else
-                totalCarbohydrate = totalCarbohydrate + coef * food.carbohydrate;
+                totalCarbohydrate = totalCarbohydrate + coef * carbohydrate;
         }
 
         String UNIT_KCAL = getString(R.string.menu2a_text6c);
@@ -211,44 +224,54 @@ public class MyIntakeActivity extends AppCompatActivity {
 
         IndexViewHolder holder;
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row0_col1,
-                (int)totalEnergy + UNIT_KCAL, totalEnergy / m_user.energyIntake(), true);
+                format(totalEnergy) + UNIT_KCAL, totalEnergy / m_user.energyIntake(), true);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row1_col1,
                 format(totalProtein) + UNIT_G, totalProtein / m_user.proteinIntake(), false);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row2_col1,
                 format(totalFat) + UNIT_G, totalFat / m_user.totalFatIntake(), true);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row3_col1,
                 format(totalSatFat) + UNIT_G, totalSatFat / m_user.saturatedFatIntake(), false);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row4_col1,
                 format(totalTransFat) + UNIT_G, totalTransFat / m_user.transFatIntake(), true);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row5_col1,
                 format(totalCholesterol) + UNIT_MG, totalCholesterol / m_user.cholesterolIntake(), false);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row6_col1,
                 format(totalCarbohydrate) + UNIT_MG, totalCarbohydrate / m_user.carbohydrateIntake(), true);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row7_col1,
                 format(totalFibre) + UNIT_MG, totalFibre / m_user.fibreIntake(), false);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row8_col1,
                 format(totalSugar) + UNIT_G, totalSugar / m_user.sugarIntake(), true);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
 
         holder = new IndexViewHolder(this, R.string.menu3a_t30_t2_row9_col1,
                 format(totalSodium) + UNIT_MG, totalSodium / m_user.sodiumIntake(), false);
         llIndexContainer.addView(holder.container);
+        m_nuHist.isOver = m_nuHist.isOver || holder.isOver();
     }
 
     class FoodViewHolder {
@@ -266,7 +289,7 @@ public class MyIntakeActivity extends AppCompatActivity {
             tvAmountUnit = (TextView) view.findViewById(R.id.tvAmountUnit);
             tvPackageUnit = (TextView) view.findViewById(R.id.tvPackageUnit);
 
-            String szUnit = foodData.packageUnit == Food.PACKAGE_UNIT_G ? UNIT_GRAM : UNIT_ML;
+            //String szUnit = foodData.packageUnit == Food.PACKAGE_UNIT_G ? UNIT_GRAM : UNIT_ML;
             if ( readOnly ) {
                 tvAmount = (TextView) view.findViewById(R.id.tvAmount);
             }
@@ -276,8 +299,8 @@ public class MyIntakeActivity extends AppCompatActivity {
                 edtAmount.addTextChangedListener(new CustomTextWatcher(edtAmount, asteriskView));
             }
             tvFoodName.setText(foodData.name);
-            tvAmountUnit.setText(szUnit);
-            tvPackageUnit.setText(foodData.packageSize + szUnit);
+            tvAmountUnit.setText(UNIT_GRAM_ML);
+            tvPackageUnit.setText((int)foodData.packageSize + UNIT_GRAM_ML);
         }
 
         public void setAmount(int amount) {
@@ -303,6 +326,7 @@ public class MyIntakeActivity extends AppCompatActivity {
         TextView tvPercent;
         ProgressBar pgPercent;
         View ll100Mark;
+        int  progress;
         public IndexViewHolder(Context context, int nResIndexName, String szAmount, float percent, boolean bgWhite) {
             container = LayoutInflater.from(context).inflate(R.layout.item_intake_index, null);
             tvIndexName = (TextView) container.findViewById(R.id.tvIndexName);
@@ -316,7 +340,7 @@ public class MyIntakeActivity extends AppCompatActivity {
 
             tvIndexName.setText(nResIndexName);
             tvAmount.setText(szAmount);
-            int progress = (int)(percent * 100);
+            progress = (int)Math.round(percent * 100);
             tvPercent.setText(progress + "%");
             if ( percent > 1 ) {
                 progress = 100 + (progress - 100) / 4;
@@ -334,7 +358,10 @@ public class MyIntakeActivity extends AppCompatActivity {
                 pgPercent.setProgress(progress);
                 pgPercent.setSecondaryProgress(0);
             }
+        }
 
+        public boolean isOver() {
+            return progress > 100;
         }
     }
 }

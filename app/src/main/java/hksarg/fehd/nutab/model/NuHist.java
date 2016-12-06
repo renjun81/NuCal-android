@@ -26,6 +26,9 @@ public class NuHist extends Model {
     @Column(name="user_id")
     public long userId;
 
+    @Column(name="is_over")
+    public boolean isOver;
+
     public void putFood(int foodId, int amount) {
         if ( foodList == null )
             foodList = new SparseIntArray();
@@ -44,6 +47,6 @@ public class NuHist extends Model {
     }
 
     public static List<NuHist> getAllByUser(long userId) {
-        return new Select().from(NuHist.class).where("user_id=" + userId).execute();
+        return new Select().from(NuHist.class).orderBy("record_time desc").where("user_id=" + userId).execute();
     }
 }

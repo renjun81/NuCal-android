@@ -239,6 +239,10 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
         edtSugar.setBackgroundResource(R.drawable.txtfield_normal);
         asteriskSugar.setVisibility(View.INVISIBLE);
 
+        float carbo = parseFloat(edtCarbohydrate.getText().toString());
+        float fiber = parseFloat(edtDietaryFibre.getText().toString());
+        float sugar = parseFloat(edtSugar.getText().toString());
+
         if ( m_food.carbohydrateType == Food.CARBO_TYPE_TOTAL ) {
 
             if (edtDietaryFibre.length() == 0 ) {
@@ -253,9 +257,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
                 return false;
             }
 
-            float carbo = parseFloat(edtCarbohydrate.getText().toString());
-            float fiber = parseFloat(edtDietaryFibre.getText().toString());
-            float sugar = parseFloat(edtSugar.getText().toString());
             if( edtCarbohydrate.length() > 0 && carbo < fiber + sugar ) {
                 edtCarbohydrate.setBackgroundResource(R.drawable.txtfield_error);
                 asteriskCarbo.setVisibility(View.VISIBLE);
@@ -277,8 +278,6 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         else {
-            float carbo = parseFloat(edtCarbohydrate.getText().toString());
-            float sugar = parseFloat(edtSugar.getText().toString());
             if ( edtCarbohydrate.length() > 0 && edtSugar.length() > 0 && carbo < sugar ) {
                 edtCarbohydrate.setBackgroundResource(R.drawable.txtfield_error);
                 asteriskCarbo.setVisibility(View.VISIBLE);
@@ -319,15 +318,27 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
                 return;
             }
         }
-        m_food.energySize = parseFloat(edtEnergy.getText().toString());
-        m_food.protein = parseFloat(edtProtein.getText().toString());
 
-        m_food.totalFat = parseFloat(edtTotalFat.getText().toString());
-        m_food.saturatedFat = parseFloat(edtSaturatedFat.getText().toString());
-        m_food.transFat = parseFloat(edtTransFat.getText().toString());
+        if ( edtEnergy.length() == 0 && edtProtein.length() == 0 &&
+                edtTotalFat.length() == 0 && edtSaturatedFat.length() == 0 && edtTransFat.length() == 0 &&
+                edtCarbohydrate.length() == 0 && edtCholesterol.length() == 0 &&
+                edtDietaryFibre.length() == 0 && edtSugar.length() == 0 && edtSodium.length() == 0 ){
+            AppConfig.showMessageDialog(this, R.string.menu2a_d14);
+            return;
+        }
 
-        float totalFat = m_food.totalFat > 0 ? m_food.totalFat : m_food.saturatedFat + m_food.transFat;
-        if ( m_food.totalFat > 0 && m_food.totalFat < m_food.saturatedFat + m_food.transFat ) {
+        float energySize = parseFloat(edtEnergy.getText().toString());
+        float protein = parseFloat(edtProtein.getText().toString());
+        float totalFat = parseFloat(edtTotalFat.getText().toString());
+        float saturatedFat = parseFloat(edtSaturatedFat.getText().toString());
+        float transFat = parseFloat(edtTransFat.getText().toString());
+        float cholesterol = parseFloat(edtCholesterol.getText().toString());
+        float carbohydrate = parseFloat(edtCarbohydrate.getText().toString());
+        float dietaryFibre = parseFloat(edtDietaryFibre.getText().toString());
+        float sugar = parseFloat(edtSugar.getText().toString());
+        float sodium = parseFloat(edtSodium.getText().toString());
+
+        if ( totalFat > 0 && totalFat < saturatedFat + transFat ) {
             AppConfig.showMessageDialog(this, R.string.menu2a_d07);
             edtTotalFat.setBackgroundResource(R.drawable.txtfield_error);
             asteriskTotalFat.setVisibility(View.VISIBLE);
@@ -342,50 +353,53 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
-        m_food.cholesterol = parseFloat(edtCholesterol.getText().toString());
-
-        m_food.carbohydrate = parseFloat(edtCarbohydrate.getText().toString());
-        m_food.dietaryFibre = parseFloat(edtDietaryFibre.getText().toString());
-        m_food.sugar = parseFloat(edtSugar.getText().toString());
-        m_food.sodium = parseFloat(edtSodium.getText().toString());
-
         if ( !checkCarbohydrate() )
             return;
 
         float carbo;
         if ( m_food.carbohydrateType == Food.CARBO_TYPE_TOTAL )
-            carbo = Math.max(0, m_food.carbohydrate - m_food.dietaryFibre);
+            carbo = Math.max(0, carbohydrate - dietaryFibre);
         else
-            carbo = Math.max(m_food.carbohydrate, m_food.dietaryFibre + m_food.sugar);
+            carbo = Math.max(carbohydrate, dietaryFibre + sugar);
 
-        if ( edtEnergy.length() == 0 && edtProtein.length() == 0 &&
-                edtTotalFat.length() == 0 && edtSaturatedFat.length() == 0 && edtTransFat.length() == 0 &&
-                edtCarbohydrate.length() == 0 && edtCholesterol.length() == 0 &&
-                edtDietaryFibre.length() == 0 && edtSugar.length() == 0 && edtSodium.length() == 0 ){
-            AppConfig.showMessageDialog(this, R.string.menu2a_d14);
-            return;
-        }
-
-        if ( m_food.protein + totalFat + m_food.cholesterol/1000.f + carbo + m_food.sodium/1000.f > m_food.packageSize ) {
+        if ( protein + Math.max(totalFat, saturatedFat + transFat) + cholesterol/1000.f + carbo + sodium/1000.f > m_food.packageSize ) {
             AppConfig.showMessageDialog(this, R.string.menu2a_d13);
             return;
         }
 
-        if ( m_food.energySize > 0
-                && edtProtein.length() > 0 && edtTotalFat.length() > 0 && edtCarbohydrate.length() > 0 ) {
-
+        if ( energySize > 0 && edtProtein.length() > 0 && edtTotalFat.length() > 0 && edtCarbohydrate.length() > 0 ) {
             if ( (m_food.energyUnit == Food.ENERGY_UNIT_KCAL) && (
-                m_food.energySize <= (m_food.protein * 4 + m_food.totalFat *9 + m_food.carbohydrate * 4)* 0.7 ||
-                m_food.energySize >= (m_food.protein * 4 + m_food.totalFat *9 + m_food.carbohydrate * 4)* 1.3 )
+                energySize <= (protein * 4 + totalFat *9 + carbohydrate * 4)* 0.7 ||
+                energySize >= (protein * 4 + totalFat *9 + carbohydrate * 4)* 1.3 )
                 || (m_food.energyUnit == Food.ENERGY_UNIT_KJ) && (
-                m_food.energySize <= (m_food.protein * 17 + m_food.totalFat *37 + m_food.carbohydrate * 17)* 0.7 ||
-                m_food.energySize >= (m_food.protein * 17 + m_food.totalFat *37 + m_food.carbohydrate * 17)* 1.3 ) )
+                energySize <= (protein * 17 + totalFat *37 + carbohydrate * 17)* 0.7 ||
+                energySize >= (protein * 17 + totalFat *37 + carbohydrate * 17)* 1.3 ) )
             {
                 AppConfig.showMessageDialog(this, R.string.menu2a_d15);
                 return;
             }
         }
 
+        if ( edtEnergy.length() > 0 )
+            m_food.energySize = energySize;
+        if ( edtProtein.length() > 0 )
+            m_food.protein = protein;
+        if ( edtTotalFat.length() > 0 )
+            m_food.totalFat = totalFat;
+        if ( edtSaturatedFat.length() > 0 )
+            m_food.saturatedFat = saturatedFat;
+        if ( edtTransFat.length() > 0 )
+            m_food.transFat = transFat;
+        if ( edtCholesterol.length() > 0 )
+            m_food.cholesterol = cholesterol;
+        if ( edtCarbohydrate.length() > 0 )
+            m_food.carbohydrate = carbohydrate;
+        if ( edtDietaryFibre.length() > 0 )
+            m_food.dietaryFibre = dietaryFibre;
+        if ( edtSugar.length() > 0 )
+            m_food.sugar = sugar;
+        if ( edtSodium.length() > 0 )
+            m_food.sodium = sodium;
 
         if ( m_food.save() > 0 ) {
             final Dialog dialog = new Dialog(AddFoodActivity.this, android.R.style.Theme_DeviceDefault_Dialog);
@@ -530,7 +544,7 @@ public class AddFoodActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private String format(float value) {
-        return value < 0.01 ? "" : String.format("%.02f", value);
+        return value < 0 ? "" : String.format("%.02f", value);
     }
 
 }

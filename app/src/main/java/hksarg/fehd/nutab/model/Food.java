@@ -94,20 +94,32 @@ public class Food extends Model{
     @Column(name="is_selected")
     public boolean isSelected;
 
+    public Food() {
+        energySize = -1;
+        protein = -1;
+        totalFat = -1;
+        saturatedFat = -1;
+        transFat = -1;
+        cholesterol = -1;
+        carbohydrate = -1;
+        dietaryFibre = -1;
+        sugar = -1;
+        sodium = -1;
+    }
+
     public boolean isFoodType(int foodType) {
         switch(foodType) {
             case FOOD_LOW_FAT:
-                float fat = Math.max(totalFat, saturatedFat + transFat);
                 if ( packageUnit == PACKAGE_UNIT_G)
-                    return fat >0 && fat/packageSize < 3.f/100;
+                    return totalFat >= 0 && totalFat/packageSize < 3.f/100;
                 else
-                    return fat > 0 && fat/packageSize < 1.5/100;
+                    return totalFat >= 0 && totalFat/packageSize < 1.5/100;
 
             case FOOD_LOW_SALT:
-                return sodium > 0 && (sodium/1000)/packageSize < 0.12/100;
+                return sodium >= 0 && (sodium/1000)/packageSize < 0.12/100;
 
             case FOOD_LOW_SUGAR:
-                return sugar > 0 && sugar/packageSize < 5.f/100;
+                return sugar >= 0 && sugar/packageSize < 5.f/100;
 
             case FOOD_THREE_LOW:
                 return isFoodType(FOOD_LOW_FAT) && isFoodType(FOOD_LOW_SALT) && isFoodType(FOOD_LOW_SUGAR);

@@ -3,6 +3,7 @@ package hksarg.fehd.nutab;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -178,8 +179,17 @@ public class MyIntakeHistoryActivity extends AppCompatActivity {
         @Override
         public void fillValues(int position, View convertView) {
             TextView tvRecordedTime = (TextView) convertView.findViewById(R.id.tvRecordedTime);
+            ImageView ivEmoj = (ImageView) convertView.findViewById(R.id.ivEmoj);
             NuHist itemData = getItem(position);
             tvRecordedTime.setText(itemData.getRecordTimeString(tvRecordedTime.getContext()));
+            if(itemData.isOver) {
+                ivEmoj.setImageResource(R.drawable.icon_alert);
+                tvRecordedTime.setTextColor(Color.argb(255, 200, 0, 0));
+            }
+            else {
+                ivEmoj.setImageResource(R.drawable.smiley);
+                tvRecordedTime.setTextColor(Color.argb(255, 80, 80, 80));
+            }
             convertView.setTag(itemData);
             if ( mIsEditMode ) {
                 convertView.findViewById(R.id.btnDelete).setVisibility(View.VISIBLE);
