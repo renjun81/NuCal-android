@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab.model;
+package hksarg.fehd.nu.model;
 
 import android.database.Cursor;
 import android.graphics.Bitmap;

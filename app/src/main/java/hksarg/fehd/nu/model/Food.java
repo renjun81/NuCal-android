@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab.model;
+package hksarg.fehd.nu.model;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;

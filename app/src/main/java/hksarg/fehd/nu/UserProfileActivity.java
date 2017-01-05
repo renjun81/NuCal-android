@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,7 +25,7 @@ import com.activeandroid.query.Select;
 
 import java.io.IOException;
 
-import hksarg.fehd.nutab.model.User;
+import hksarg.fehd.nu.model.User;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener{
 

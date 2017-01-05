@@ -1,13 +1,10 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -21,9 +18,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import hksarg.fehd.nutab.model.Food;
-import hksarg.fehd.nutab.model.NuHist;
-import hksarg.fehd.nutab.model.User;
+import hksarg.fehd.nu.model.Food;
+import hksarg.fehd.nu.model.NuHist;
+import hksarg.fehd.nu.model.User;
 
 public class MyIntakeActivity extends AppCompatActivity {
 

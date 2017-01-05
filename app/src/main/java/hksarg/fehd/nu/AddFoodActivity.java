@@ -1,14 +1,12 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.app.Dialog;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -17,12 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.xdroid.widget.SoftKeyboard;
 
-import hksarg.fehd.nutab.model.Food;
+import hksarg.fehd.nu.model.Food;
 
 public class AddFoodActivity extends AppCompatActivity implements View.OnClickListener {
 

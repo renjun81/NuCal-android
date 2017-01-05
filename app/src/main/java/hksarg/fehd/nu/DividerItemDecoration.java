@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Context;
 import android.content.res.TypedArray;

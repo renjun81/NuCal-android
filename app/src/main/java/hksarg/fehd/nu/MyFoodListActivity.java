@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -38,13 +38,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 
-import hksarg.fehd.nutab.bluetoothclassic.Constants;
-import hksarg.fehd.nutab.bluetoothclassic.DeviceListActivity;
+import hksarg.fehd.nu.bluetoothclassic.Constants;
+import hksarg.fehd.nu.bluetoothclassic.DeviceListActivity;
 import jp.wasabeef.recyclerview.animators.FadeInLeftAnimator;
 
-import hksarg.fehd.nutab.model.Food;
-import hksarg.fehd.nutab.model.User;
-import hksarg.fehd.nutab.bluetoothclassic.BluetoothChatService;
+import hksarg.fehd.nu.model.Food;
+import hksarg.fehd.nu.model.User;
+import hksarg.fehd.nu.bluetoothclassic.BluetoothChatService;
 
 
 public class MyFoodListActivity extends AppCompatActivity implements View.OnClickListener{

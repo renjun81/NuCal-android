@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,8 +23,8 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 
 import java.util.List;
 
-import hksarg.fehd.nutab.model.NuHist;
-import hksarg.fehd.nutab.model.User;
+import hksarg.fehd.nu.model.NuHist;
+import hksarg.fehd.nu.model.User;
 
 public class MyIntakeHistoryActivity extends AppCompatActivity {
 

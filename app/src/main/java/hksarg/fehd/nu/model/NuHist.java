@@ -1,7 +1,6 @@
-package hksarg.fehd.nutab.model;
+package hksarg.fehd.nu.model;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.activeandroid.Model;

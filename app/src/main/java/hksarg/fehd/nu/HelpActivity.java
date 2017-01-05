@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.SQLiteUtils;
 
-import hksarg.fehd.nutab.model.User;
+import hksarg.fehd.nu.model.User;
 
 public class HelpActivity extends AppCompatActivity {
 

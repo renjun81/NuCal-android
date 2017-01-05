@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package hksarg.fehd.nutab.bluetoothclassic;
+package hksarg.fehd.nu.bluetoothclassic;
 
 /**
  * Defines several constants used between {@link BluetoothChatService} and the UI.

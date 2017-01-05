@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -17,7 +17,7 @@ import com.xdroid.widget.LocaleHelper;
 
 import java.util.Locale;
 
-import hksarg.fehd.nutab.model.Food;
+import hksarg.fehd.nu.model.Food;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 

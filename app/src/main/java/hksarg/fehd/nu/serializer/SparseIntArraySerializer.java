@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab.serializer;
+package hksarg.fehd.nu.serializer;
 
 
 import android.util.SparseIntArray;

@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.activeandroid.query.Select;
 import com.daimajia.swipe.SimpleSwipeListener;
@@ -27,7 +26,7 @@ import com.daimajia.swipe.adapters.BaseSwipeAdapter;
 
 import java.util.List;
 
-import hksarg.fehd.nutab.model.User;
+import hksarg.fehd.nu.model.User;
 
 
 public class UserListActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package hksarg.fehd.nutab;
+package hksarg.fehd.nu;
 
 
 import android.app.Application;
@@ -7,8 +7,6 @@ import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
 import com.xdroid.widget.LocaleHelper;
-
-import java.util.Locale;
 
 /**
  * When your application is launched this class is loaded before all of your activies.

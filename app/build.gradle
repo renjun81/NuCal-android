@@ -6,7 +6,7 @@ android {
     buildToolsVersion "24.0.1"
 
     defaultConfig {
-        applicationId "hksarg.fehd.nutab"
+        applicationId "hksarg.fehd.nu"
         minSdkVersion 14
         targetSdkVersion 24
         versionCode 196
